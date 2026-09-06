@@ -1,0 +1,6 @@
+{
+  "name": "Wedding Registry & Finance Hub",
+  "description": "Plataforma de gestión de invitados, menús especiales y balance presupuestario para bodas",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

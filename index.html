@@ -1,0 +1,2696 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-stone-50 text-stone-800 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Registry & Finance Hub</title>
+  <meta name="description" content="Plataforma de gestión de invitados, menús especiales y balance presupuestario para bodas">
+  <meta property="og:title" content="Wedding Registry & Finance Hub">
+  <meta property="og:description" content="Plataforma de gestión de invitados, menús especiales y balance presupuestario para bodas">
+
+  <!-- Tipografías Google Fonts: Cormorant Garamond y Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS vía CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          colors: {
+            stone: {
+              50: '#fafaf9',
+              100: '#f5f5f4',
+              200: '#e7e5e4',
+              300: '#d6d3d1',
+              400: '#a8a29e',
+              500: '#78716c',
+              600: '#57534e',
+              700: '#44403c',
+              800: '#292524',
+              900: '#1c1917',
+              950: '#0c0a09'
+            },
+            emerald: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+            },
+            amber: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              700: '#b45309',
+              800: '#92400e',
+            },
+            rose: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              600: '#e11d48',
+              700: '#be123c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons vía CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #1c1917 !important;
+        font-size: 10pt !important;
+      }
+      .no-print, 
+      header,
+      #quick-add-section,
+      #toolbar-section,
+      .actions-column,
+      .interactive-control,
+      #modal-new-wedding,
+      #modal-config-wedding,
+      #modal-edit-guest,
+      #modal-quick-amount,
+      #modal-delete-confirm,
+      #modal-import-sheets,
+      #toast-container {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+      }
+      th, td {
+        border-bottom: 1px solid #e7e5e4 !important;
+        padding: 5px 8px !important;
+        color: #1c1917 !important;
+      }
+      tr {
+        page-break-inside: avoid !important;
+      }
+    }
+    .print-only {
+      display: none;
+    }
+    .transition-smooth {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans bg-stone-50 text-stone-800 antialiased selection:bg-stone-200">
+
+  <!-- CABECERA SUPERIOR -->
+  <header class="bg-white border-b border-stone-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between py-3 md:h-20 gap-3 md:gap-4">
+        
+        <!-- Identidad & Selector de Bodas -->
+        <div class="flex items-center justify-between md:justify-start gap-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-stone-900 text-stone-100 flex items-center justify-center font-serif text-xl font-bold shadow-xs shrink-0">
+              &
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold uppercase tracking-wider text-stone-400">Wedding Hub</span>
+                <span id="header-badge-status" class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-stone-100 text-stone-600 border border-stone-200">
+                  Activa
+                </span>
+              </div>
+              <div class="flex items-center gap-2 mt-0.5">
+                <!-- Selector visible solo cuando hay bodas -->
+                <div id="wedding-selector-wrapper" class="relative inline-block">
+                  <select id="wedding-selector" aria-label="Seleccionar Boda Activa" class="font-serif text-lg sm:text-2xl font-bold text-stone-900 bg-transparent pr-8 py-0.5 pl-1 rounded-md border border-transparent hover:border-stone-200 focus:border-stone-400 focus:ring-2 focus:ring-stone-300 focus:outline-none cursor-pointer transition-smooth">
+                  </select>
+                </div>
+                <!-- Título si no hay bodas -->
+                <div id="wedding-selector-fallback" class="hidden font-serif text-lg sm:text-2xl font-bold text-stone-900">
+                  Sin Eventos Activos
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones de Acción en Cabecera -->
+        <div class="flex items-center flex-wrap gap-2 sm:gap-2.5">
+          <!-- Botón + Nueva Boda (siempre accesible) -->
+          <button type="button" id="btn-open-new-wedding" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-800 bg-stone-100 border border-stone-300 hover:bg-stone-200 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth shadow-xs" title="Crear otra lista de boda">
+            <i data-lucide="folder-plus" class="w-4 h-4 text-stone-600"></i>
+            <span>+ Nueva Boda</span>
+          </button>
+
+          <!-- Acciones que solo aparecen cuando hay una boda activa -->
+          <div id="header-wedding-actions" class="flex items-center gap-2 sm:gap-2.5">
+            <button type="button" id="btn-open-wedding-config" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-50 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth shadow-xs" title="Ajustes de presupuesto, tarjeta y meta de esta boda">
+              <i data-lucide="sliders-horizontal" class="w-4 h-4 text-stone-500"></i>
+              <span class="hidden sm:inline">Configuración</span>
+            </button>
+
+            <button type="button" id="btn-open-import" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-50 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth shadow-xs" title="Importar lista de invitados desde Google Sheets o CSV">
+              <i data-lucide="file-up" class="w-4 h-4 text-stone-600"></i>
+              <span class="hidden sm:inline">Importar de Sheets</span>
+            </button>
+
+            <button type="button" id="btn-export-csv" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-50 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth shadow-xs" title="Descargar CSV estructurado con UTF-8 BOM">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-700"></i>
+              <span class="hidden sm:inline">Exportar CSV</span>
+            </button>
+
+            <button type="button" id="btn-print-pdf" class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg text-white bg-stone-900 hover:bg-stone-800 active:scale-95 focus:ring-2 focus:ring-stone-600 focus:outline-none transition-smooth shadow-xs" title="Imprimir listado para recepción y catering">
+              <i data-lucide="printer" class="w-4 h-4"></i>
+              <span>Imprimir / PDF</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ENCABEZADO EXCLUSIVO PARA IMPRESIÓN / REPORTE PDF -->
+  <div class="print-only max-w-7xl mx-auto px-6 py-4">
+    <div class="border-b-2 border-stone-900 pb-3 mb-4">
+      <div class="flex justify-between items-end">
+        <div>
+          <h1 id="print-wedding-name" class="font-serif text-3xl font-bold text-stone-950">Lista Oficial de Invitados</h1>
+          <p id="print-wedding-meta" class="text-sm text-stone-600 mt-1"></p>
+        </div>
+        <div class="text-right text-xs text-stone-500">
+          <p>Generado: <span id="print-timestamp"></span></p>
+          <p class="font-medium text-stone-700">Wedding Registry & Finance Hub</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border border-stone-300 rounded-lg p-3.5 mb-5 bg-stone-50/50">
+      <h2 class="text-xs uppercase font-bold tracking-wider text-stone-700 mb-2">Resumen Operativo para Salón & Catering</h2>
+      <div id="print-summary-grid" class="grid grid-cols-4 gap-4 text-xs"></div>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 sm:space-y-8">
+
+    <!-- ZERO-STATE: PANTALLA DE BIENVENIDA CUANDO NO HAY BODAS (0 BODAS) -->
+    <section id="zero-state-view" class="py-16 sm:py-24 px-4 text-center max-w-xl mx-auto">
+      <div class="w-16 h-16 rounded-2xl bg-white border border-stone-200 text-stone-900 flex items-center justify-center mx-auto mb-6 shadow-xs">
+        <i data-lucide="sparkles" class="w-8 h-8 text-stone-700"></i>
+      </div>
+      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 border border-stone-200 mb-3">
+        Bienvenido a Wedding Hub
+      </span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 tracking-tight">
+        Comienza a organizar tu evento
+      </h2>
+      <p class="text-stone-500 text-sm sm:text-base mt-3 leading-relaxed">
+        Gestiona la lista de invitados, dietas especiales, confirmaciones de asistencia y el balance presupuestario de la boda en un único panel centralizado.
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <button type="button" id="btn-zero-create-wedding" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-stone-900 rounded-xl hover:bg-stone-800 active:scale-95 shadow-md transition-smooth">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <span>+ Crear mi Primera Boda</span>
+        </button>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left border-t border-stone-200 pt-8">
+        <div class="p-3 bg-white rounded-xl border border-stone-200/80 shadow-xs">
+          <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mb-2">
+            <i data-lucide="wallet" class="w-4 h-4"></i>
+          </div>
+          <h4 class="text-xs font-bold text-stone-800">Control Financiero</h4>
+          <p class="text-[11px] text-stone-500 mt-1">Monitorea metas, fondo de novios y recaudación de tarjetas.</p>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-stone-200/80 shadow-xs">
+          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center mb-2">
+            <i data-lucide="utensils" class="w-4 h-4"></i>
+          </div>
+          <h4 class="text-xs font-bold text-stone-800">Menús & Dietas</h4>
+          <p class="text-[11px] text-stone-500 mt-1">Conteo directo de celíacos, veganos, vegetarianos y otros.</p>
+        </div>
+        <div class="p-3 bg-white rounded-xl border border-stone-200/80 shadow-xs">
+          <div class="w-7 h-7 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center mb-2">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+          </div>
+          <h4 class="text-xs font-bold text-stone-800">Reporte Ejecutivo</h4>
+          <p class="text-[11px] text-stone-500 mt-1">Exportación a CSV limpio y vista imprimible para salón.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENEDOR DASHBOARD COMPLETO (SOLO VISIBLE CON BODA ACTIVA) -->
+    <div id="wedding-dashboard-view" class="hidden space-y-6 sm:space-y-8">
+
+      <!-- SUB-BARRA INFORMATIVA DE LA BODA ACTIVA -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1 border-b border-stone-200">
+        <div>
+          <h2 id="active-wedding-display-name" class="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+            <!-- Inyectado dinámicamente -->
+          </h2>
+          <p id="active-wedding-subtitle" class="text-xs sm:text-sm text-stone-500 mt-0.5">
+            <!-- Inyectado dinámicamente -->
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="active-wedding-fee-pill" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
+            <span id="active-wedding-fee-text">Cobro de tarjeta activo</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 1: 4 KPI CARDS (MÉTRICAS CLAVE EN VIVO) -->
+      <section aria-label="Métricas Clave de la Boda" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        
+        <!-- KPI 1: Total Confirmados -->
+        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-smooth">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Total Confirmados</span>
+            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+              <i data-lucide="user-check" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span id="kpi-confirmed-count" class="text-3xl font-serif font-bold text-stone-900">0</span>
+            <span id="kpi-confirmed-percent" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              0%
+            </span>
+          </div>
+          <p id="kpi-confirmed-breakdown" class="text-xs text-stone-500 mt-2 font-medium">
+            0 Adultos • 0 Menores
+          </p>
+        </article>
+
+        <!-- KPI 2: Pendientes de Confirmación -->
+        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-smooth">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Pendientes de RSVP</span>
+            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+              <i data-lucide="help-circle" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span id="kpi-pending-count" class="text-3xl font-serif font-bold text-stone-900">0</span>
+            <span class="text-xs text-stone-400">en duda</span>
+          </div>
+          <p id="kpi-declined-count" class="text-xs text-stone-500 mt-2 font-medium">
+            0 Cancelados / No asisten
+          </p>
+        </article>
+
+        <!-- KPI 3: Restricciones Alimentarias -->
+        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-smooth">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Menús Especiales</span>
+            <div class="w-8 h-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center">
+              <i data-lucide="utensils" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span id="kpi-special-diet-count" class="text-3xl font-serif font-bold text-stone-900">0</span>
+            <span class="text-xs text-stone-500 font-medium">dietas activas</span>
+          </div>
+          <div id="kpi-diet-badges" class="flex flex-wrap gap-1 mt-2 min-h-5">
+            <span class="text-xs text-stone-400">Sin dietas especiales</span>
+          </div>
+        </article>
+
+        <!-- KPI 4: MÓDULO FINANCIERO AVANZADO (Fondo Novios, Tarjetas, Total Acumulado, Meta y Saldo) -->
+        <article id="kpi-finance-card" class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-smooth">
+          <div class="flex items-center justify-between">
+            <span id="kpi-finance-title" class="text-xs font-semibold uppercase tracking-wider text-stone-500">Balance Financiero</span>
+            <div id="kpi-finance-icon" class="w-8 h-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center">
+              <i data-lucide="wallet" class="w-4 h-4"></i>
+            </div>
+          </div>
+
+          <!-- Bloque cuando tiene cobro de tarjeta o meta o aporte inicial -->
+          <div id="kpi-finance-active-block" class="mt-3 space-y-2.5">
+            <div class="flex items-baseline justify-between">
+              <div>
+                <span class="text-[11px] text-stone-500 uppercase tracking-wider font-semibold block">Total Acumulado</span>
+                <span id="kpi-total-accumulated" class="text-2xl sm:text-3xl font-serif font-bold text-stone-900">$0</span>
+              </div>
+              <div class="text-right">
+                <span class="text-[11px] text-stone-400 block">Meta Estimada</span>
+                <span id="kpi-target-goal" class="text-xs sm:text-sm font-semibold text-stone-700">$0</span>
+              </div>
+            </div>
+
+            <!-- Desglose: Fondo Novios vs Tarjetas -->
+            <div class="grid grid-cols-2 gap-2 text-[11px] bg-stone-50 p-2 rounded-lg border border-stone-100">
+              <div>
+                <span class="text-stone-400 block">Fondo Novios:</span>
+                <span id="kpi-breakdown-couple" class="font-semibold text-stone-700">$0</span>
+              </div>
+              <div class="text-right">
+                <span class="text-stone-400 block">Por Tarjetas:</span>
+                <span id="kpi-breakdown-cards" class="font-semibold text-emerald-700">$0</span>
+              </div>
+            </div>
+
+            <!-- Barra de avance hacia la meta -->
+            <div>
+              <div class="flex items-center justify-between text-[11px] mb-1">
+                <span id="kpi-progress-label" class="text-stone-500 font-medium">Progreso de la meta</span>
+                <span id="kpi-progress-percent" class="font-bold text-emerald-700">0%</span>
+              </div>
+              <div class="w-full bg-stone-100 rounded-full h-2 overflow-hidden border border-stone-200">
+                <div id="kpi-finance-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <!-- Saldo restante -->
+            <div class="flex items-center justify-between text-xs pt-0.5 border-t border-stone-100">
+              <span id="kpi-balance-label" class="text-stone-500">Saldo para la meta:</span>
+              <span id="kpi-remaining-balance" class="font-bold text-stone-800">$0</span>
+            </div>
+          </div>
+
+          <!-- Bloque cuando NO hay cobro de tarjeta ni meta -->
+          <div id="kpi-finance-inactive-block" class="hidden mt-3 py-2 space-y-2">
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-600 bg-stone-100 px-2.5 py-1 rounded-md border border-stone-200">
+              <i data-lucide="gift" class="w-3.5 h-3.5 text-stone-500"></i> Evento 100% Cubierto
+            </span>
+            <p class="text-xs text-stone-500">
+              Este evento no requiere aportes de tarjeta ni metas de recaudación configuradas.
+            </p>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- SECCIÓN 2: FORMULARIO DE CARGA DE INVITADOS -->
+      <section id="quick-add-section" aria-label="Registrar Nuevo Invitado" class="bg-white rounded-xl border border-stone-200 p-5 sm:p-6 shadow-xs">
+        <div class="flex items-center justify-between border-b border-stone-100 pb-3 mb-4 flex-wrap gap-2">
+          <div class="flex items-center space-x-2">
+            <div class="w-7 h-7 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+            </div>
+            <h3 class="text-base font-semibold text-stone-900">Registrar Invitado</h3>
+          </div>
+          <button type="button" id="btn-quick-import-trigger" class="text-xs text-stone-600 hover:text-stone-900 underline underline-offset-2 inline-flex items-center gap-1.5 font-medium transition-smooth" title="Importar lista completa desde Google Sheets o CSV">
+            <i data-lucide="file-up" class="w-3.5 h-3.5 text-stone-500"></i>
+            <span>¿Tienes una lista en Google Sheets? Impórtala masivamente aquí</span>
+          </button>
+        </div>
+
+        <form id="form-add-guest" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3.5 sm:gap-4">
+            
+            <!-- Nombre y Apellido -->
+            <div class="sm:col-span-2 lg:col-span-4">
+              <label for="input-add-name" class="block text-xs font-medium text-stone-700 mb-1">
+                Nombre y Apellido <span class="text-rose-500">*</span>
+              </label>
+              <input type="text" id="input-add-name" required placeholder="Ej. Camila Morales" class="w-full px-3 py-2 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 placeholder:text-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+            </div>
+
+            <!-- Categoría: Adulto / Menor -->
+            <div class="sm:col-span-1 lg:col-span-2">
+              <label for="select-add-type" class="block text-xs font-medium text-stone-700 mb-1">
+                Categoría
+              </label>
+              <select id="select-add-type" class="w-full px-3 py-2 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+                <option value="adulto">Adulto</option>
+                <option value="menor">Menor</option>
+              </select>
+            </div>
+
+            <!-- Asistencia: Confirmado / En Duda / Cancelado -->
+            <div class="sm:col-span-1 lg:col-span-2">
+              <label for="select-add-rsvp" class="block text-xs font-medium text-stone-700 mb-1">
+                Asistencia
+              </label>
+              <select id="select-add-rsvp" class="w-full px-3 py-2 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+                <option value="confirmado">Confirmado</option>
+                <option value="en_duda" selected>En Duda</option>
+                <option value="cancelado">Cancelado</option>
+              </select>
+            </div>
+
+            <!-- Menú / Restricción -->
+            <div class="sm:col-span-1 lg:col-span-2">
+              <label for="select-add-diet" class="block text-xs font-medium text-stone-700 mb-1">
+                Menú / Restricción
+              </label>
+              <select id="select-add-diet" class="w-full px-3 py-2 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+                <option value="Ninguna">Ninguna (Estándar)</option>
+                <option value="Celíaco">Celíaco / Sin TACC</option>
+                <option value="Vegano">Vegano</option>
+                <option value="Vegetariano">Vegetariano</option>
+                <option value="Hipertenso">Hipertenso / Sin Sal</option>
+                <option value="Otro">Otro (Especificar)</option>
+              </select>
+            </div>
+
+            <!-- ¿Abona tarjeta? (Solo activo si la boda cobra tarjeta) -->
+            <div id="field-wrapper-add-paga-tarjeta" class="sm:col-span-1 lg:col-span-3">
+              <label for="select-add-paga-tarjeta" class="block text-xs font-medium text-stone-700 mb-1">
+                ¿Abona tarjeta?
+              </label>
+              <select id="select-add-paga-tarjeta" class="w-full px-3 py-2 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+                <option value="si" selected>Sí, abona tarjeta</option>
+                <option value="no">Exento / No abona</option>
+              </select>
+            </div>
+
+            <!-- Monto Aportado ($) -->
+            <div id="field-wrapper-add-amount" class="sm:col-span-1 lg:col-span-2">
+              <label for="input-add-amount" class="block text-xs font-medium text-stone-700 mb-1">
+                Monto Aportado ($)
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-xs text-stone-400 pointer-events-none">$</span>
+                <input type="number" id="input-add-amount" min="0" step="500" placeholder="0" class="w-full pl-6 pr-3 py-2 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 placeholder:text-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Especificación de dieta si es Otro -->
+          <div id="field-wrapper-add-diet-notes" class="hidden">
+            <label for="input-add-diet-notes" class="block text-xs font-medium text-stone-700 mb-1">
+              Especificación de dieta o alergia severa
+            </label>
+            <input type="text" id="input-add-diet-notes" placeholder="Ej. Alergia a frutos secos y mariscos" class="w-full px-3 py-2 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+          </div>
+
+          <!-- Atajos y botón de envío -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-1 gap-3">
+            <div id="quick-amount-presets" class="flex items-center gap-1.5 text-xs">
+              <span class="text-stone-400">Atajos de pago:</span>
+              <button type="button" id="btn-preset-full" class="px-2 py-0.5 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium transition-smooth">
+                Tarifa completa
+              </button>
+              <button type="button" id="btn-preset-zero" class="px-2 py-0.5 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 font-medium transition-smooth">
+                $0 (Pendiente)
+              </button>
+            </div>
+
+            <button type="submit" id="btn-submit-guest" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-stone-900 hover:bg-stone-800 active:scale-95 text-white font-medium text-sm rounded-lg shadow-xs transition-smooth">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Registrar Invitado</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- SECCIÓN 3: DATA GRID DE GESTIÓN (TABLA DESKTOP / CARDS MOBILE) -->
+      <section aria-label="Listado de Invitados" class="bg-white rounded-xl border border-stone-200 shadow-xs overflow-hidden">
+        
+        <!-- Barra de Filtros y Búsqueda -->
+        <div id="toolbar-section" class="p-4 sm:p-5 border-b border-stone-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          
+          <!-- Filtros Rápidos -->
+          <div class="flex flex-wrap items-center gap-1.5" role="tablist" aria-label="Filtros de invitados">
+            <button type="button" data-filter="todos" class="filter-pill active px-3 py-1.5 text-xs font-medium rounded-lg transition-smooth border border-stone-900 bg-stone-900 text-white">
+              Todos (<span id="count-filter-todos">0</span>)
+            </button>
+            <button type="button" data-filter="confirmados" class="filter-pill px-3 py-1.5 text-xs font-medium rounded-lg transition-smooth border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900">
+              Confirmados (<span id="count-filter-confirmados">0</span>)
+            </button>
+            <button type="button" id="filter-pill-debt" data-filter="con_deuda" class="filter-pill px-3 py-1.5 text-xs font-medium rounded-lg transition-smooth border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900">
+              Con Saldo Pendiente (<span id="count-filter-con-deuda">0</span>)
+            </button>
+            <button type="button" data-filter="restricciones" class="filter-pill px-3 py-1.5 text-xs font-medium rounded-lg transition-smooth border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900">
+              Dietas Especiales (<span id="count-filter-restricciones">0</span>)
+            </button>
+            <button type="button" data-filter="en_duda" class="filter-pill px-3 py-1.5 text-xs font-medium rounded-lg transition-smooth border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900">
+              En Duda (<span id="count-filter-en-duda">0</span>)
+            </button>
+          </div>
+
+          <!-- Buscador en tiempo real por nombre -->
+          <div class="relative w-full md:w-72">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+              <i data-lucide="search" class="w-4 h-4"></i>
+            </div>
+            <input type="search" id="input-search-guest" placeholder="Buscar por nombre..." class="w-full pl-9 pr-8 py-1.5 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 placeholder:text-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+            <button type="button" id="btn-clear-search" class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-stone-400 hover:text-stone-600" title="Limpiar búsqueda">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- VISTA DESKTOP: TABLA -->
+        <div class="hidden md:block overflow-x-auto">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="bg-stone-50/80 border-b border-stone-200 text-xs font-semibold uppercase tracking-wider text-stone-500">
+                <th scope="col" class="py-3 px-4 pl-6">Invitado</th>
+                <th scope="col" class="py-3 px-4">Tipo</th>
+                <th scope="col" class="py-3 px-4">Asistencia (Clic para cambiar)</th>
+                <th scope="col" class="py-3 px-4">Restricción / Menú</th>
+                <th scope="col" class="py-3 px-4 col-header-payment">Monto Aportado</th>
+                <th scope="col" class="py-3 px-4 col-header-status">Estado de Pago</th>
+                <th scope="col" class="py-3 px-4 pr-6 text-right actions-column">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="guests-table-body" class="divide-y divide-stone-100 text-stone-700">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- VISTA MOBILE: CARDS -->
+        <div id="guests-cards-container" class="md:hidden divide-y divide-stone-100">
+        </div>
+
+        <!-- ESTADO VACÍO EN BÚSQUEDA / FILTRO -->
+        <div id="empty-state-view" class="hidden py-14 px-4 text-center">
+          <div class="w-12 h-12 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="users" class="w-6 h-6"></i>
+          </div>
+          <h4 class="text-sm font-semibold text-stone-800">No se encontraron invitados</h4>
+          <p class="text-xs text-stone-500 mt-1 max-w-sm mx-auto">No hay registros que coincidan con la búsqueda o el filtro seleccionado en esta boda.</p>
+          <button type="button" id="btn-reset-filters" class="mt-3.5 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg text-stone-700 bg-stone-100 hover:bg-stone-200 transition-smooth">
+            Restablecer filtros
+          </button>
+        </div>
+
+        <!-- PIE DEL GRID -->
+        <div class="px-4 py-3 bg-stone-50/60 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
+          <span id="footer-guest-counter">Mostrando 0 de 0 invitados</span>
+          <span class="text-[11px] text-stone-400">Persistencia local: wedding_hub_master_v3</span>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL 1: NUEVA BODA (CONFIGURACIÓN INICIAL EN 1 PASO) -->
+  <div id="modal-new-wedding" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-new-wedding">
+    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-new-wedding"></div>
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md border border-stone-200">
+        
+        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            </div>
+            <h3 id="title-modal-new-wedding" class="text-base font-semibold text-stone-900">Crear Nueva Boda</h3>
+          </div>
+          <button type="button" id="btn-close-new-wedding" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth" aria-label="Cerrar modal">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <form id="form-new-wedding" class="p-6 space-y-4">
+          <!-- Nombre del Evento -->
+          <div>
+            <label for="new-wedding-name" class="block text-xs font-medium text-stone-700 mb-1">
+              Nombre del Evento <span class="text-rose-500">*</span>
+            </label>
+            <input type="text" id="new-wedding-name" required placeholder="Ej. Boda Valentina & Mateo" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+          </div>
+
+          <!-- Metas Financieras Opcionales -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="new-wedding-meta" class="block text-xs font-medium text-stone-700 mb-1">
+                Meta Estimativa ($)
+              </label>
+              <input type="number" id="new-wedding-meta" min="0" step="1000" placeholder="Ej. 1500000" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+              <span class="text-[10px] text-stone-400">Presupuesto total a cubrir</span>
+            </div>
+            <div>
+              <label for="new-wedding-aporte-novios" class="block text-xs font-medium text-stone-700 mb-1">
+                Aporte Novios ($)
+              </label>
+              <input type="number" id="new-wedding-aporte-novios" min="0" step="1000" placeholder="Ej. 400000" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+              <span class="text-[10px] text-stone-400">Fondo inicial base</span>
+            </div>
+          </div>
+
+          <!-- Toggle Cobro de Tarjeta y Precio -->
+          <div class="rounded-xl border border-stone-200 p-4 bg-stone-50/70 space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <label for="new-wedding-tarjeta-toggle" class="text-xs font-semibold text-stone-900 block cursor-pointer">
+                  ¿Se cobra tarjeta de invitación?
+                </label>
+                <p class="text-[11px] text-stone-500">Habilita registro de aportes por invitado</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="new-wedding-tarjeta-toggle" class="sr-only peer" checked>
+                <div class="w-10 h-5.5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4.5 after:w-4.5 after:transition-all peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
+            <!-- Indicador visual dinámico de modo -->
+            <div id="new-wedding-mode-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 w-full justify-center transition-smooth">
+              <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
+              <span>Modo: Cobro de Tarjeta Activado</span>
+            </div>
+
+            <div id="new-wedding-pricing-box" class="pt-2 border-t border-stone-200">
+              <label for="new-wedding-price" class="block text-xs font-medium text-stone-700 mb-1">
+                Precio sugerido de la tarjeta por persona ($)
+              </label>
+              <input type="number" id="new-wedding-price" min="0" step="500" value="45000" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end space-x-2.5 pt-2">
+            <button type="button" id="btn-cancel-new-wedding" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50 transition-smooth">
+              Cancelar
+            </button>
+            <button type="submit" class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 transition-smooth shadow-xs">
+              Crear y Activar Boda
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: CONFIGURACIÓN DE LA BODA ACTIVA -->
+  <div id="modal-config-wedding" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-config-wedding">
+    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-config-wedding"></div>
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md border border-stone-200">
+        
+        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center">
+              <i data-lucide="settings" class="w-4 h-4"></i>
+            </div>
+            <h3 id="title-modal-config-wedding" class="text-base font-semibold text-stone-900">Ajustes de la Boda Activa</h3>
+          </div>
+          <button type="button" id="btn-close-config-wedding" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth" aria-label="Cerrar modal">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <form id="form-config-wedding" class="p-6 space-y-4">
+          <div>
+            <label for="cfg-wedding-name" class="block text-xs font-medium text-stone-700 mb-1">Nombre de la Boda</label>
+            <input type="text" id="cfg-wedding-name" required class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="cfg-wedding-meta" class="block text-xs font-medium text-stone-700 mb-1">Meta Estimativa ($)</label>
+              <input type="number" id="cfg-wedding-meta" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+            </div>
+            <div>
+              <label for="cfg-wedding-aporte-novios" class="block text-xs font-medium text-stone-700 mb-1">Aporte Novios ($)</label>
+              <input type="number" id="cfg-wedding-aporte-novios" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-stone-200 p-4 bg-stone-50/70 space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <label for="cfg-tarjeta-toggle" class="text-xs font-semibold text-stone-900 block cursor-pointer">
+                  ¿Se cobra tarjeta de invitación?
+                </label>
+                <p class="text-[11px] text-stone-500">Habilita cálculo de aportes y saldo de tarjetas</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="cfg-tarjeta-toggle" class="sr-only peer">
+                <div class="w-10 h-5.5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4.5 after:w-4.5 after:transition-all peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
+            <!-- Indicador visual dinámico de modo -->
+            <div id="cfg-wedding-mode-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 w-full justify-center transition-smooth">
+              <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
+              <span>Modo: Cobro de Tarjeta Activado</span>
+            </div>
+
+            <div id="cfg-pricing-box" class="pt-2 border-t border-stone-200">
+              <label for="cfg-card-price" class="block text-xs font-medium text-stone-700 mb-1">Precio sugerido de tarjeta por persona ($)</label>
+              <input type="number" id="cfg-card-price" min="0" step="500" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Acción Destructiva: Eliminar Lista de Boda -->
+          <div class="pt-2 border-t border-stone-100 flex items-center justify-between">
+            <button type="button" id="btn-delete-active-wedding" class="text-xs text-rose-600 hover:text-rose-700 hover:underline inline-flex items-center gap-1.5 font-medium">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              <span>Eliminar esta lista de boda</span>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-end space-x-2.5 pt-2">
+            <button type="button" id="btn-cancel-config-wedding" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50 transition-smooth">
+              Cancelar
+            </button>
+            <button type="submit" class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 transition-smooth shadow-xs">
+              Guardar Cambios
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: EDITAR MONTO APORTADO RÁPIDAMENTE -->
+  <div id="modal-quick-amount" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-quick-amount">
+    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-quick-amount"></div>
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm border border-stone-200">
+        
+        <div class="bg-stone-50 px-5 py-3.5 border-b border-stone-200 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="coins" class="w-4 h-4 text-stone-700"></i>
+            <h3 id="title-modal-quick-amount" class="text-sm font-semibold text-stone-900">Actualizar Monto Aportado</h3>
+          </div>
+          <button type="button" id="btn-close-quick-amount" class="rounded-lg p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form id="form-quick-amount" class="p-5 space-y-4">
+          <input type="hidden" id="quick-guest-id">
+
+          <div>
+            <p class="text-xs text-stone-500 mb-1">Invitado:</p>
+            <p id="quick-guest-name" class="text-sm font-bold text-stone-900"></p>
+          </div>
+
+          <div>
+            <label for="input-quick-amount-val" class="block text-xs font-medium text-stone-700 mb-1">Monto Abonado ($)</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-xs text-stone-400 pointer-events-none">$</span>
+              <input type="number" id="input-quick-amount-val" min="0" step="500" required class="w-full pl-7 pr-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 font-semibold focus:ring-2 focus:ring-stone-400 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-1">
+            <button type="button" id="btn-quick-full" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth">
+              Tarifa Total
+            </button>
+            <button type="button" id="btn-quick-half" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth">
+              50% Tarifa
+            </button>
+            <button type="button" id="btn-quick-zero" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth">
+              $0
+            </button>
+          </div>
+
+          <div class="flex items-center justify-end space-x-2 pt-2">
+            <button type="button" id="btn-cancel-quick-amount" class="px-3 py-1.5 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50">
+              Cancelar
+            </button>
+            <button type="submit" class="px-4 py-1.5 text-xs font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 shadow-xs">
+              Guardar Monto
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: EDITAR INVITADO COMPLETO -->
+  <div id="modal-edit-guest" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-edit-guest">
+    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-edit-guest"></div>
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md border border-stone-200">
+        
+        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+          <h3 id="title-modal-edit-guest" class="text-base font-semibold text-stone-900">Editar Invitado</h3>
+          <button type="button" id="btn-close-edit-guest" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <form id="form-edit-guest" class="p-6 space-y-4">
+          <input type="hidden" id="edit-guest-id">
+
+          <div>
+            <label for="edit-name" class="block text-xs font-medium text-stone-700 mb-1">Nombre y Apellido</label>
+            <input type="text" id="edit-name" required class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="edit-tipo" class="block text-xs font-medium text-stone-700 mb-1">Categoría</label>
+              <select id="edit-tipo" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+                <option value="adulto">Adulto</option>
+                <option value="menor">Menor</option>
+              </select>
+            </div>
+            <div>
+              <label for="edit-asistencia" class="block text-xs font-medium text-stone-700 mb-1">Asistencia</label>
+              <select id="edit-asistencia" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+                <option value="confirmado">Confirmado</option>
+                <option value="en_duda">En Duda</option>
+                <option value="cancelado">Cancelado</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="edit-restriccion" class="block text-xs font-medium text-stone-700 mb-1">Menú / Restricción</label>
+            <select id="edit-restriccion" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+              <option value="Ninguna">Ninguna (Estándar)</option>
+              <option value="Celíaco">Celíaco / Sin TACC</option>
+              <option value="Vegano">Vegano</option>
+              <option value="Vegetariano">Vegetariano</option>
+              <option value="Hipertenso">Hipertenso / Sin Sal</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div id="edit-diet-notes-box" class="hidden">
+            <label for="edit-diet-notes" class="block text-xs font-medium text-stone-700 mb-1">Detalle de Dieta</label>
+            <input type="text" id="edit-diet-notes" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+          </div>
+
+          <!-- ¿Abona tarjeta? (Solo si la boda cobra tarjeta) -->
+          <div id="edit-paga-tarjeta-box">
+            <label for="edit-paga-tarjeta" class="block text-xs font-medium text-stone-700 mb-1">¿Abona tarjeta este invitado?</label>
+            <select id="edit-paga-tarjeta" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+              <option value="si">Sí, abona tarjeta</option>
+              <option value="no">Exento / No abona</option>
+            </select>
+          </div>
+
+          <div id="edit-amount-box">
+            <label for="edit-monto" class="block text-xs font-medium text-stone-700 mb-1">Monto Aportado ($)</label>
+            <input type="number" id="edit-monto" min="0" step="500" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+          </div>
+
+          <div class="flex items-center justify-end space-x-2.5 pt-2">
+            <button type="button" id="btn-cancel-edit-guest" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50">
+              Cancelar
+            </button>
+            <button type="submit" class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 shadow-xs">
+              Actualizar Invitado
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: CONFIRMACIÓN DE ELIMINAR INVITADO -->
+  <div id="modal-delete-confirm" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-delete-confirm"></div>
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm border border-stone-200 p-6">
+        <div class="w-10 h-10 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        </div>
+        <h4 class="text-base font-semibold text-stone-900 text-center">¿Eliminar invitado?</h4>
+        <p class="text-xs text-stone-500 text-center mt-2">
+          ¿Estás seguro de que deseas quitar a <span id="delete-confirm-guest-name" class="font-bold text-stone-800"></span>? Esta acción no se puede deshacer.
+        </p>
+        <div class="flex items-center justify-center gap-2.5 mt-5">
+          <button type="button" id="btn-cancel-delete" class="w-full px-3 py-2 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50">
+            Cancelar
+          </button>
+          <button type="button" id="btn-confirm-delete" class="w-full px-3 py-2 text-xs font-medium text-white bg-rose-600 hover:bg-rose-700 rounded-lg shadow-xs">
+            Sí, eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: IMPORTACIÓN UNIVERSAL DESDE GOOGLE SHEETS / CSV -->
+  <div id="modal-import-sheets" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-import">
+    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-import-sheets"></div>
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl border border-stone-200">
+        
+        <!-- Encabezado del Modal -->
+        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center">
+              <i data-lucide="file-up" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 id="title-modal-import" class="text-base font-semibold text-stone-900">Importar Lista desde Google Sheets</h3>
+              <p class="text-xs text-stone-500">Carga masiva de invitados mediante archivo CSV o pegado directo de celdas</p>
+            </div>
+          </div>
+          <button type="button" id="btn-close-import" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth" aria-label="Cerrar modal">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-5">
+          <!-- Guía de columnas reconocidas & Descarga de Plantilla -->
+          <div class="rounded-xl border border-stone-200 bg-stone-50/70 p-3.5 text-xs text-stone-600 space-y-2">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-1.5 font-semibold text-stone-800">
+                <i data-lucide="info" class="w-4 h-4 text-stone-500"></i>
+                <span>Columnas reconocidas automáticamente</span>
+              </div>
+              <button type="button" id="btn-download-template" class="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 hover:text-emerald-800 hover:underline bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 transition-smooth" title="Descargar archivo modelo de ejemplo">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Descargar plantilla modelo (.csv)</span>
+              </button>
+            </div>
+            <p class="text-[11px] text-stone-500 leading-relaxed">
+              El parser nativo detecta comas (<code class="bg-stone-200 px-1 py-0.5 rounded text-stone-800 font-mono">,</code>), puntos y comas (<code class="bg-stone-200 px-1 py-0.5 rounded text-stone-800 font-mono">;</code>) y tabuladores (<code class="bg-stone-200 px-1 py-0.5 rounded text-stone-800 font-mono">\t</code> de Google Sheets y Excel).
+            </p>
+            <div class="flex flex-wrap gap-1.5 pt-1 text-[11px]">
+              <span class="px-2 py-0.5 bg-white border border-stone-200 rounded font-medium text-stone-800">Nombre y Apellido *</span>
+              <span class="px-2 py-0.5 bg-white border border-stone-200 rounded text-stone-600">Categoría (Adulto/Menor)</span>
+              <span class="px-2 py-0.5 bg-white border border-stone-200 rounded text-stone-600">Asistencia (Confirmado/En Duda/Cancelado)</span>
+              <span class="px-2 py-0.5 bg-white border border-stone-200 rounded text-stone-600">Menú / Dieta (Celíaco/Vegano/etc.)</span>
+              <span class="px-2 py-0.5 bg-white border border-stone-200 rounded text-stone-600">Abona Tarjeta (Sí/No)</span>
+              <span class="px-2 py-0.5 bg-white border border-stone-200 rounded text-stone-600">Monto Aportado ($)</span>
+            </div>
+          </div>
+
+          <!-- Selector de Método: Pestañas -->
+          <div class="flex border-b border-stone-200" role="tablist" aria-label="Métodos de importación">
+            <button type="button" id="tab-import-paste" class="py-2.5 px-4 text-xs font-semibold border-b-2 border-stone-900 text-stone-900 transition-smooth inline-flex items-center gap-1.5" role="tab" aria-selected="true">
+              <i data-lucide="clipboard" class="w-3.5 h-3.5"></i>
+              <span>Copiar y Pegar Celdas</span>
+            </button>
+            <button type="button" id="tab-import-file" class="py-2.5 px-4 text-xs font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-700 transition-smooth inline-flex items-center gap-1.5" role="tab" aria-selected="false">
+              <i data-lucide="file-up" class="w-3.5 h-3.5"></i>
+              <span>Subir archivo .CSV</span>
+            </button>
+          </div>
+
+          <!-- Panel 1: Pegar Celdas -->
+          <div id="panel-import-paste" class="space-y-3">
+            <label for="textarea-import-paste" class="block text-xs font-medium text-stone-700">
+              Pega aquí las celdas copiadas directamente de Google Sheets o Excel:
+            </label>
+            <textarea id="textarea-import-paste" rows="5" placeholder="Nombre y Apellido	Categoría	Asistencia	Menú / Dieta	Abona Tarjeta	Monto Aportado&#10;Camila Morales	Adulto	Confirmado	Ninguna	Sí	45000&#10;Lucas Romero	Adulto	Confirmado	Celíaco	Sí	45000&#10;Sofía Gómez	Menor	En Duda	Ninguna	No	0" class="w-full px-3 py-2 text-xs font-mono bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth placeholder:text-stone-400"></textarea>
+            <div class="flex items-center justify-between text-[11px] text-stone-500">
+              <span>Selecciona tus filas en Google Sheets, pulsa Ctrl+C y pégalas aquí con Ctrl+V.</span>
+              <button type="button" id="btn-parse-paste" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded-lg transition-smooth">
+                <i data-lucide="play" class="w-3 h-3 text-stone-700"></i>
+                <span>Analizar Datos</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Panel 2: Subir Archivo CSV -->
+          <div id="panel-import-file" class="hidden space-y-3">
+            <div id="drop-zone-csv" class="border-2 border-dashed border-stone-300 hover:border-stone-400 rounded-xl p-6 text-center cursor-pointer bg-stone-50/50 hover:bg-stone-50 transition-smooth">
+              <input type="file" id="input-file-csv" accept=".csv, .tsv, .txt, text/csv, text/plain" class="hidden">
+              <div class="w-10 h-10 rounded-full bg-stone-100 text-stone-600 flex items-center justify-center mx-auto mb-2">
+                <i data-lucide="upload-cloud" class="w-5 h-5 text-stone-500"></i>
+              </div>
+              <p class="text-xs font-semibold text-stone-800">Haz clic para seleccionar o arrastra tu archivo .CSV aquí</p>
+              <p class="text-[11px] text-stone-500 mt-1">Exportaciones desde Google Sheets (.csv) o Microsoft Excel</p>
+              <div id="file-chosen-wrapper" class="mt-2 hidden">
+                <span id="file-chosen-name" class="inline-flex items-center gap-1 text-xs font-mono text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vista Previa / Pre-Flight Validation -->
+          <div id="import-preview-section" class="hidden border border-stone-200 rounded-xl p-4 bg-stone-50 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0 animate-pulse"></span>
+                <h4 id="import-preview-title" class="text-xs font-bold text-stone-900 uppercase tracking-wide">0 invitados listos para importar</h4>
+              </div>
+              <div id="import-preview-stats" class="text-xs text-stone-600 font-medium"></div>
+            </div>
+
+            <!-- Tabla compacta con scroll de los registros parseados -->
+            <div class="max-h-48 overflow-y-auto border border-stone-200 rounded-lg bg-white shadow-2xs">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead class="bg-stone-100 text-stone-600 font-semibold sticky top-0 border-b border-stone-200">
+                  <tr>
+                    <th class="py-1.5 px-3">#</th>
+                    <th class="py-1.5 px-3">Nombre</th>
+                    <th class="py-1.5 px-3">Categoría</th>
+                    <th class="py-1.5 px-3">Asistencia</th>
+                    <th class="py-1.5 px-3">Menú / Dieta</th>
+                    <th class="py-1.5 px-3">Abona Tarjeta</th>
+                    <th class="py-1.5 px-3 text-right">Aporte ($)</th>
+                  </tr>
+                </thead>
+                <tbody id="import-preview-tbody" class="divide-y divide-stone-100 text-stone-800 font-normal"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="flex items-center justify-end space-x-2.5 pt-2 border-t border-stone-100">
+            <button type="button" id="btn-cancel-import" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50 transition-smooth">
+              Cancelar
+            </button>
+            <button type="button" id="btn-confirm-import" disabled class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 hover:bg-stone-800 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-smooth shadow-xs inline-flex items-center gap-1.5">
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span>Confirmar e Incorporar a la Lista</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOASTS DE NOTIFICACIÓN -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- JAVASCRIPT MODULAR Y AUTOCONTENIDO -->
+  <script>
+    (function() {
+      'use strict';
+
+      // 1. CLAVE DE PERSISTENCIA SEGÚN ESPECIFICACIÓN TÉCNICA
+      const STORAGE_KEY = 'wedding_hub_master_v3';
+
+      // Estructura vacía por defecto para Zero State UI
+      const EMPTY_DATABASE = {
+        activeWeddingId: null,
+        weddings: {}
+      };
+
+      // 2. ESTADO EN MEMORIA
+      let db = loadDatabase();
+      let state = {
+        activeFilter: 'todos',
+        searchQuery: '',
+        deletingGuestId: null
+      };
+
+      function loadDatabase() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed.weddings === 'object') {
+              return parsed;
+            }
+          }
+        } catch (e) {
+          console.warn('Error al leer localStorage, iniciando base vacía:', e);
+        }
+        return JSON.parse(JSON.stringify(EMPTY_DATABASE));
+      }
+
+      function saveDatabase(dataToSave = db) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+        } catch (e) {
+          console.error('Error al persistir base de datos:', e);
+        }
+      }
+
+      function getActiveWedding() {
+        if (!db.activeWeddingId || !db.weddings[db.activeWeddingId]) {
+          const keys = Object.keys(db.weddings || {});
+          if (keys.length > 0) {
+            db.activeWeddingId = keys[0];
+            return db.weddings[db.activeWeddingId];
+          }
+          db.activeWeddingId = null;
+          return null;
+        }
+        return db.weddings[db.activeWeddingId];
+      }
+
+      function formatMoney(amount) {
+        return `$${Number(amount || 0).toLocaleString('es-AR')}`;
+      }
+
+      function escapeHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-lg shadow-md border text-xs font-medium transition-all duration-300 transform translate-y-2 opacity-0 ${
+          type === 'success' 
+            ? 'bg-stone-900 text-white border-stone-800' 
+            : 'bg-rose-600 text-white border-rose-700'
+        }`;
+        const iconName = type === 'success' ? 'check-circle' : 'alert-circle';
+        toast.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
+        container.appendChild(toast);
+        lucide.createIcons({ root: toast });
+
+        requestAnimationFrame(() => {
+          toast.classList.remove('translate-y-2', 'opacity-0');
+        });
+
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      function updateWeddingModeBadge(badgeEl, isActive) {
+        if (!badgeEl) return;
+        if (isActive) {
+          badgeEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 w-full justify-center transition-smooth';
+          badgeEl.innerHTML = '<i data-lucide="credit-card" class="w-3.5 h-3.5"></i><span>Modo: Cobro de Tarjeta Activado</span>';
+        } else {
+          badgeEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-stone-600 border border-stone-200 w-full justify-center transition-smooth';
+          badgeEl.innerHTML = '<i data-lucide="gift" class="w-3.5 h-3.5 text-stone-500"></i><span>Modo: Invitación Libre (Sin Cobro)</span>';
+        }
+        lucide.createIcons({ root: badgeEl });
+      }
+
+      // 3. RENDERIZADO PRINCIPAL (ZERO-STATE vs DASHBOARD)
+      function renderApp() {
+        const wedding = getActiveWedding();
+        const zeroStateView = document.getElementById('zero-state-view');
+        const dashboardView = document.getElementById('wedding-dashboard-view');
+        const selectorWrapper = document.getElementById('wedding-selector-wrapper');
+        const selectorFallback = document.getElementById('wedding-selector-fallback');
+        const headerActions = document.getElementById('header-wedding-actions');
+        const headerBadge = document.getElementById('header-badge-status');
+
+        if (!wedding) {
+          // ESTADO CERO: 0 Bodas creadas
+          zeroStateView.classList.remove('hidden');
+          dashboardView.classList.add('hidden');
+          selectorWrapper.classList.add('hidden');
+          selectorFallback.classList.remove('hidden');
+          headerActions.classList.add('hidden');
+          headerBadge.textContent = 'Sin Bodas';
+          document.title = 'Wedding Registry & Finance Hub';
+          lucide.createIcons();
+          return;
+        }
+
+        // ESTADO ACTIVO: Hay al menos una boda
+        zeroStateView.classList.add('hidden');
+        dashboardView.classList.remove('hidden');
+        selectorWrapper.classList.remove('hidden');
+        selectorFallback.classList.add('hidden');
+        headerActions.classList.remove('hidden');
+        headerBadge.textContent = 'Activa';
+
+        renderWeddingSelector();
+
+        document.getElementById('active-wedding-display-name').textContent = wedding.name;
+        document.title = `${wedding.name} | Wedding Registry & Finance Hub`;
+
+        const subtitleEl = document.getElementById('active-wedding-subtitle');
+        const feePill = document.getElementById('active-wedding-fee-pill');
+        const feeText = document.getElementById('active-wedding-fee-text');
+        const quickPagaTarjetaField = document.getElementById('field-wrapper-add-paga-tarjeta');
+        const quickAmountField = document.getElementById('field-wrapper-add-amount');
+        const quickAmountPresets = document.getElementById('quick-amount-presets');
+        const filterDebtPill = document.getElementById('filter-pill-debt');
+
+        const baseTarifa = Number(wedding.precioTarjeta || 0);
+        const metaVal = Number(wedding.metaRecaudar || 0);
+        const aporteNoviosVal = Number(wedding.aporteNovios || 0);
+
+        if (wedding.tarjetaActiva) {
+          subtitleEl.textContent = `Tarjeta Activa • Sugerido: ${formatMoney(baseTarifa)} por persona ${metaVal > 0 ? `• Meta: ${formatMoney(metaVal)}` : ''}`;
+          feePill.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200';
+          feeText.textContent = `Tarjeta: ${formatMoney(baseTarifa)}`;
+          if (quickPagaTarjetaField) quickPagaTarjetaField.classList.remove('hidden');
+          const isPaying = document.getElementById('select-add-paga-tarjeta') ? document.getElementById('select-add-paga-tarjeta').value === 'si' : true;
+          if (isPaying) {
+            quickAmountField.classList.remove('hidden');
+            quickAmountPresets.classList.remove('hidden');
+          } else {
+            quickAmountField.classList.add('hidden');
+            quickAmountPresets.classList.add('hidden');
+          }
+          filterDebtPill.classList.remove('hidden');
+        } else {
+          subtitleEl.textContent = `Evento agasajado • Sin cobro de tarjeta ${metaVal > 0 ? `• Presupuesto novios: ${formatMoney(metaVal)}` : ''}`;
+          feePill.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-700 border border-stone-200';
+          feeText.textContent = 'Invitación Libre';
+          if (quickPagaTarjetaField) quickPagaTarjetaField.classList.add('hidden');
+          quickAmountField.classList.add('hidden');
+          quickAmountPresets.classList.add('hidden');
+          filterDebtPill.classList.add('hidden');
+        }
+
+        renderKPIs(wedding);
+        renderGuestsGrid(wedding);
+        renderPrintHeader(wedding);
+
+        lucide.createIcons();
+      }
+
+      function renderWeddingSelector() {
+        const selector = document.getElementById('wedding-selector');
+        selector.innerHTML = '';
+        Object.values(db.weddings).forEach(w => {
+          const opt = document.createElement('option');
+          opt.value = w.id;
+          opt.textContent = w.name;
+          if (w.id === db.activeWeddingId) {
+            opt.selected = true;
+          }
+          selector.appendChild(opt);
+        });
+      }
+
+      function renderKPIs(wedding) {
+        const guests = wedding.guests || [];
+        const totalGuests = guests.length;
+
+        const confirmedGuests = guests.filter(g => g.asistencia === 'confirmado');
+        const confirmedAdults = confirmedGuests.filter(g => g.tipo === 'adulto').length;
+        const confirmedChildren = confirmedGuests.filter(g => g.tipo === 'menor').length;
+        const pendingGuests = guests.filter(g => g.asistencia === 'en_duda');
+        const declinedGuests = guests.filter(g => g.asistencia === 'cancelado');
+
+        const specialDietGuests = guests.filter(g => g.restriccion && g.restriccion !== 'Ninguna');
+        const dietDistribution = {};
+        specialDietGuests.forEach(g => {
+          dietDistribution[g.restriccion] = (dietDistribution[g.restriccion] || 0) + 1;
+        });
+
+        // 1. Confirmados
+        const confirmedCount = confirmedGuests.length;
+        const confirmedPct = totalGuests > 0 ? Math.round((confirmedCount / totalGuests) * 100) : 0;
+        document.getElementById('kpi-confirmed-count').textContent = confirmedCount;
+        document.getElementById('kpi-confirmed-percent').textContent = `${confirmedPct}%`;
+        document.getElementById('kpi-confirmed-breakdown').textContent = `${confirmedAdults} Adultos • ${confirmedChildren} Menores`;
+
+        // 2. Pendientes
+        document.getElementById('kpi-pending-count').textContent = pendingGuests.length;
+        document.getElementById('kpi-declined-count').textContent = `${declinedGuests.length} Cancelados / No asisten`;
+
+        // 3. Menús Especiales
+        document.getElementById('kpi-special-diet-count').textContent = specialDietGuests.length;
+        const badgesContainer = document.getElementById('kpi-diet-badges');
+        badgesContainer.innerHTML = '';
+        if (specialDietGuests.length === 0) {
+          badgesContainer.innerHTML = '<span class="text-xs text-stone-400">Sin dietas especiales</span>';
+        } else {
+          Object.keys(dietDistribution).forEach(diet => {
+            const span = document.createElement('span');
+            span.className = 'inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-medium bg-stone-100 text-stone-700 border border-stone-200';
+            span.textContent = `${diet}: ${dietDistribution[diet]}`;
+            badgesContainer.appendChild(span);
+          });
+        }
+
+        // 4. MÓDULO FINANCIERO AVANZADO
+        const activeBlock = document.getElementById('kpi-finance-active-block');
+        const inactiveBlock = document.getElementById('kpi-finance-inactive-block');
+        const iconBox = document.getElementById('kpi-finance-icon');
+
+        const fondoNovios = Number(wedding.aporteNovios || 0);
+        const metaEstimada = Number(wedding.metaRecaudar || 0);
+        const totalPorTarjetas = guests.reduce((acc, g) => acc + (Number(g.montoAportado) || 0), 0);
+        const totalAcumulado = fondoNovios + totalPorTarjetas;
+
+        const hasFinancialScope = wedding.tarjetaActiva || metaEstimada > 0 || fondoNovios > 0;
+
+        if (hasFinancialScope) {
+          activeBlock.classList.remove('hidden');
+          inactiveBlock.classList.add('hidden');
+          iconBox.className = 'w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center';
+
+          document.getElementById('kpi-total-accumulated').textContent = formatMoney(totalAcumulado);
+          document.getElementById('kpi-breakdown-couple').textContent = formatMoney(fondoNovios);
+          document.getElementById('kpi-breakdown-cards').textContent = formatMoney(totalPorTarjetas);
+
+          if (metaEstimada > 0) {
+            document.getElementById('kpi-target-goal').textContent = formatMoney(metaEstimada);
+            const progress = Math.min(100, Math.round((totalAcumulado / metaEstimada) * 100));
+            const saldoFaltante = Math.max(0, metaEstimada - totalAcumulado);
+
+            document.getElementById('kpi-progress-label').textContent = 'Progreso hacia la meta';
+            document.getElementById('kpi-progress-percent').textContent = `${progress}%`;
+            document.getElementById('kpi-finance-bar').style.width = `${progress}%`;
+
+            document.getElementById('kpi-balance-label').textContent = 'Saldo para la meta:';
+            document.getElementById('kpi-remaining-balance').textContent = formatMoney(saldoFaltante);
+            document.getElementById('kpi-remaining-balance').className = saldoFaltante === 0 ? 'font-bold text-emerald-700' : 'font-bold text-stone-800';
+          } else {
+            // Si no hay meta explícita, se calcula la expectativa basada en confirmados que abonan tarjeta * precioTarjeta
+            const payingConfirmed = confirmedGuests.filter(g => g.pagaTarjeta !== false);
+            const tarjetaEsperada = payingConfirmed.length * (Number(wedding.precioTarjeta) || 0);
+            const objetivoCalculado = fondoNovios + tarjetaEsperada;
+
+            document.getElementById('kpi-target-goal').textContent = `${formatMoney(objetivoCalculado)} (Tarjetas)`;
+            const progress = objetivoCalculado > 0 ? Math.min(100, Math.round((totalAcumulado / objetivoCalculado) * 100)) : 100;
+            const saldoFaltante = Math.max(0, objetivoCalculado - totalAcumulado);
+
+            document.getElementById('kpi-progress-label').textContent = 'Recaudación de tarjetas';
+            document.getElementById('kpi-progress-percent').textContent = `${progress}%`;
+            document.getElementById('kpi-finance-bar').style.width = `${progress}%`;
+
+            document.getElementById('kpi-balance-label').textContent = 'Por recaudar tarjetas:';
+            document.getElementById('kpi-remaining-balance').textContent = formatMoney(saldoFaltante);
+          }
+        } else {
+          activeBlock.classList.add('hidden');
+          inactiveBlock.classList.remove('hidden');
+          iconBox.className = 'w-8 h-8 rounded-lg bg-stone-100 text-stone-600 flex items-center justify-center';
+        }
+      }
+
+      function renderGuestsGrid(wedding) {
+        const guests = wedding.guests || [];
+        const basePrice = Number(wedding.precioTarjeta) || 0;
+
+        document.getElementById('count-filter-todos').textContent = guests.length;
+        document.getElementById('count-filter-confirmados').textContent = guests.filter(g => g.asistencia === 'confirmado').length;
+        document.getElementById('count-filter-con-deuda').textContent = guests.filter(g => {
+          return wedding.tarjetaActiva && g.pagaTarjeta !== false && g.asistencia !== 'cancelado' && (Number(g.montoAportado || 0) < basePrice);
+        }).length;
+        document.getElementById('count-filter-restricciones').textContent = guests.filter(g => g.restriccion && g.restriccion !== 'Ninguna').length;
+        document.getElementById('count-filter-en-duda').textContent = guests.filter(g => g.asistencia === 'en_duda').length;
+
+        let filtered = guests.filter(g => {
+          if (state.searchQuery.trim() !== '') {
+            const q = state.searchQuery.toLowerCase();
+            const matches = g.name.toLowerCase().includes(q) || (g.notasRestriccion && g.notasRestriccion.toLowerCase().includes(q));
+            if (!matches) return false;
+          }
+
+          if (state.activeFilter === 'confirmados') return g.asistencia === 'confirmado';
+          if (state.activeFilter === 'en_duda') return g.asistencia === 'en_duda';
+          if (state.activeFilter === 'restricciones') return g.restriccion && g.restriccion !== 'Ninguna';
+          if (state.activeFilter === 'con_deuda') {
+            return wedding.tarjetaActiva && g.pagaTarjeta !== false && g.asistencia !== 'cancelado' && (Number(g.montoAportado || 0) < basePrice);
+          }
+          return true;
+        });
+
+        const tbody = document.getElementById('guests-table-body');
+        const cardsContainer = document.getElementById('guests-cards-container');
+        const emptyState = document.getElementById('empty-state-view');
+        const counterEl = document.getElementById('footer-guest-counter');
+
+        tbody.innerHTML = '';
+        cardsContainer.innerHTML = '';
+
+        counterEl.textContent = `Mostrando ${filtered.length} de ${guests.length} invitados`;
+
+        if (filtered.length === 0) {
+          emptyState.classList.remove('hidden');
+          return;
+        }
+        emptyState.classList.add('hidden');
+
+        filtered.forEach(guest => {
+          const monto = Number(guest.montoAportado || 0);
+          const isExento = wedding.tarjetaActiva && guest.pagaTarjeta === false;
+
+          const rsvpBadges = {
+            confirmado: { label: 'Confirmado', bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-200' },
+            en_duda: { label: 'En Duda', bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-200' },
+            cancelado: { label: 'Cancelado', bg: 'bg-stone-100', text: 'text-stone-500', border: 'border-stone-200' }
+          };
+          const currentRsvp = rsvpBadges[guest.asistencia] || rsvpBadges.en_duda;
+
+          let paymentBadgeHtml = '';
+          if (wedding.tarjetaActiva) {
+            if (isExento) {
+              paymentBadgeHtml = `
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 border border-stone-200" title="Invitado exento de pago de tarjeta">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-stone-500"></i>
+                  <span>Exento</span>
+                </span>
+              `;
+            } else if (monto >= basePrice && basePrice > 0) {
+              const diff = monto - basePrice;
+              paymentBadgeHtml = `
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  <span>${diff > 0 ? `Abonado (+${formatMoney(diff)})` : 'Total Abonado'}</span>
+                </span>
+              `;
+            } else if (monto > 0 && monto < basePrice) {
+              const falta = basePrice - monto;
+              paymentBadgeHtml = `
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200" title="Abonó ${formatMoney(monto)}">
+                  <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                  <span>Parcial: resta ${formatMoney(falta)}</span>
+                </span>
+              `;
+            } else {
+              paymentBadgeHtml = `
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                  <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                  <span>Pendiente: debe ${formatMoney(basePrice)}</span>
+                </span>
+              `;
+            }
+          } else {
+            paymentBadgeHtml = `
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-stone-100 text-stone-600 border border-stone-200">
+                Invitación Libre
+              </span>
+            `;
+          }
+
+          const dietHtml = guest.restriccion && guest.restriccion !== 'Ninguna'
+            ? `<div class="flex flex-col"><span class="inline-flex items-center gap-1 font-semibold text-stone-800 text-xs"><i data-lucide="sparkle" class="w-3 h-3 text-stone-400"></i>${guest.restriccion}</span>${guest.notasRestriccion ? `<span class="text-[11px] text-stone-500 truncate max-w-[180px]">${guest.notasRestriccion}</span>` : ''}</div>`
+            : `<span class="text-xs text-stone-400">Estándar</span>`;
+
+          // FILA DESKTOP
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-stone-50/70 transition-smooth border-b border-stone-100';
+          tr.innerHTML = `
+            <td class="py-3 px-4 pl-6">
+              <div class="font-medium text-stone-900">${guest.name}</div>
+            </td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${guest.tipo === 'menor' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-stone-100 text-stone-700 border border-stone-200'}">
+                ${guest.tipo === 'menor' ? 'Menor' : 'Adulto'}
+              </span>
+            </td>
+            <td class="py-3 px-4">
+              <button type="button" class="btn-cycle-rsvp inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${currentRsvp.bg} ${currentRsvp.text} border ${currentRsvp.border} hover:opacity-80 transition-smooth" data-id="${guest.id}" title="Clic para alternar estado">
+                <span>${currentRsvp.label}</span>
+                <i data-lucide="chevron-right" class="w-3 h-3 opacity-60"></i>
+              </button>
+            </td>
+            <td class="py-3 px-4">
+              ${dietHtml}
+            </td>
+            <td class="py-3 px-4 col-cell-payment">
+              ${wedding.tarjetaActiva ? (isExento ? '<span class="text-xs font-medium text-stone-500 italic">Exento de tarjeta</span>' : `<span class="font-bold text-stone-900">${formatMoney(monto)}</span> <span class="text-xs text-stone-400">/ ${formatMoney(basePrice)}</span>`) : '<span class="text-xs text-stone-400">—</span>'}
+            </td>
+            <td class="py-3 px-4 col-cell-status">
+              ${paymentBadgeHtml}
+            </td>
+            <td class="py-3 px-4 pr-6 text-right actions-column">
+              <div class="inline-flex items-center gap-1 justify-end">
+                ${(wedding.tarjetaActiva && !isExento) ? `
+                  <button type="button" class="btn-quick-pay p-1.5 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-smooth" data-id="${guest.id}" title="Ajustar monto abonado">
+                    <i data-lucide="wallet" class="w-4 h-4"></i>
+                  </button>
+                ` : ''}
+                <button type="button" class="btn-edit-guest p-1.5 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-smooth" data-id="${guest.id}" title="Editar información">
+                  <i data-lucide="edit-3" class="w-4 h-4"></i>
+                </button>
+                <button type="button" class="btn-delete-guest p-1.5 rounded-lg text-stone-400 hover:text-rose-600 hover:bg-rose-50 transition-smooth" data-id="${guest.id}" title="Eliminar de la lista">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+
+          // CARD MOBILE
+          const card = document.createElement('article');
+          card.className = 'p-4 space-y-3';
+          card.innerHTML = `
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h5 class="text-sm font-bold text-stone-900">${guest.name}</h5>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${guest.tipo === 'menor' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-stone-100 text-stone-700 border border-stone-200'}">
+                    ${guest.tipo === 'menor' ? 'Menor' : 'Adulto'}
+                  </span>
+                  <span class="text-xs text-stone-500">•</span>
+                  <span class="text-xs text-stone-600">${guest.restriccion !== 'Ninguna' ? guest.restriccion : 'Dieta Estándar'}</span>
+                </div>
+              </div>
+              <button type="button" class="btn-cycle-rsvp inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${currentRsvp.bg} ${currentRsvp.text} border ${currentRsvp.border}" data-id="${guest.id}">
+                ${currentRsvp.label}
+              </button>
+            </div>
+
+            ${wedding.tarjetaActiva ? `
+              <div class="flex items-center justify-between pt-1 border-t border-stone-100 text-xs">
+                <div>
+                  ${isExento ? `
+                    <span class="text-xs font-medium text-stone-500 italic">Exento de pago</span>
+                  ` : `
+                    <span class="text-stone-500">Aportado: </span>
+                    <span class="font-bold text-stone-900">${formatMoney(monto)}</span>
+                    <span class="text-stone-400">(${formatMoney(basePrice)})</span>
+                  `}
+                </div>
+                <div>${paymentBadgeHtml}</div>
+              </div>
+            ` : ''}
+
+            <div class="flex items-center justify-end gap-2 pt-1">
+              ${(wedding.tarjetaActiva && !isExento) ? `
+                <button type="button" class="btn-quick-pay inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md" data-id="${guest.id}">
+                  <i data-lucide="wallet" class="w-3.5 h-3.5"></i>
+                  <span>Abono</span>
+                </button>
+              ` : ''}
+              <button type="button" class="btn-edit-guest inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md" data-id="${guest.id}">
+                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                <span>Editar</span>
+              </button>
+              <button type="button" class="btn-delete-guest inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-md" data-id="${guest.id}">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                <span>Quitar</span>
+              </button>
+            </div>
+          `;
+          cardsContainer.appendChild(card);
+        });
+
+        const payHeaders = document.querySelectorAll('.col-header-payment, .col-header-status');
+        const payCells = document.querySelectorAll('.col-cell-payment, .col-cell-status');
+        if (!wedding.tarjetaActiva) {
+          payHeaders.forEach(el => el.classList.add('hidden'));
+          payCells.forEach(el => el.classList.add('hidden'));
+        } else {
+          payHeaders.forEach(el => el.classList.remove('hidden'));
+          payCells.forEach(el => el.classList.remove('hidden'));
+        }
+      }
+
+      function renderPrintHeader(wedding) {
+        const guests = wedding.guests || [];
+        const confirmed = guests.filter(g => g.asistencia === 'confirmado');
+        const payingConfirmed = confirmed.filter(g => g.pagaTarjeta !== false).length;
+        const exemptConfirmed = confirmed.filter(g => g.pagaTarjeta === false).length;
+        const specialDiet = guests.filter(g => g.restriccion && g.restriccion !== 'Ninguna');
+        const fondoNovios = Number(wedding.aporteNovios || 0);
+        const metaEstimada = Number(wedding.metaRecaudar || 0);
+        const totalPorTarjetas = guests.reduce((acc, g) => acc + (Number(g.montoAportado) || 0), 0);
+        const totalAcumulado = fondoNovios + totalPorTarjetas;
+
+        document.getElementById('print-wedding-name').textContent = `Lista Oficial: ${wedding.name}`;
+        document.getElementById('print-wedding-meta').textContent = `${wedding.tarjetaActiva ? `Tarifa sugerida: ${formatMoney(wedding.precioTarjeta)}` : 'Sin cobro de tarjeta'} • Fondo Novios: ${formatMoney(fondoNovios)} ${metaEstimada > 0 ? `• Meta: ${formatMoney(metaEstimada)}` : ''}`;
+        document.getElementById('print-timestamp').textContent = new Date().toLocaleDateString('es-ES', { 
+          day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' 
+        });
+
+        const breakdownStr = (wedding.tarjetaActiva && exemptConfirmed > 0)
+          ? `<span class="text-[11px] text-stone-500 font-normal block">(${payingConfirmed} abonan, ${exemptConfirmed} exentos)</span>`
+          : '';
+
+        const grid = document.getElementById('print-summary-grid');
+        grid.innerHTML = `
+          <div>
+            <span class="text-stone-500 block">Total Confirmados</span>
+            <span class="font-bold text-stone-900 text-sm">${confirmed.length} personas</span>
+            ${breakdownStr}
+          </div>
+          <div>
+            <span class="text-stone-500 block">Menús Especiales</span>
+            <span class="font-bold text-stone-900 text-sm">${specialDiet.length} dietas</span>
+          </div>
+          <div>
+            <span class="text-stone-500 block">Total Acumulado</span>
+            <span class="font-bold text-stone-900 text-sm">${formatMoney(totalAcumulado)}</span>
+          </div>
+          <div>
+            <span class="text-stone-500 block">${metaEstimada > 0 ? 'Saldo para la Meta' : 'Tarjetas Recaudadas'}</span>
+            <span class="font-bold text-stone-900 text-sm">${metaEstimada > 0 ? formatMoney(Math.max(0, metaEstimada - totalAcumulado)) : formatMoney(totalPorTarjetas)}</span>
+          </div>
+        `;
+      }
+
+      function cycleGuestRsvp(guestId) {
+        const wedding = getActiveWedding();
+        if (!wedding) return;
+        const guest = wedding.guests.find(g => g.id == guestId);
+        if (!guest) return;
+
+        const cycle = {
+          'confirmado': 'en_duda',
+          'en_duda': 'cancelado',
+          'cancelado': 'confirmado'
+        };
+        guest.asistencia = cycle[guest.asistencia] || 'confirmado';
+
+        saveDatabase();
+        renderApp();
+        showToast(`Asistencia de ${guest.name}: ${guest.asistencia.replace('_', ' ').toUpperCase()}`);
+      }
+
+      // 4. MODALES Y EVENT LISTENERS
+      function setupModals() {
+        const modalNew = document.getElementById('modal-new-wedding');
+        const openNewWeddingModal = () => {
+          document.getElementById('form-new-wedding').reset();
+          document.getElementById('new-wedding-tarjeta-toggle').checked = true;
+          document.getElementById('new-wedding-pricing-box').classList.remove('hidden');
+          updateWeddingModeBadge(document.getElementById('new-wedding-mode-badge'), true);
+          modalNew.classList.remove('hidden');
+          document.getElementById('new-wedding-name').focus();
+        };
+
+        document.getElementById('btn-open-new-wedding').addEventListener('click', openNewWeddingModal);
+        document.getElementById('btn-zero-create-wedding').addEventListener('click', openNewWeddingModal);
+
+        const closeNewWedding = () => modalNew.classList.add('hidden');
+        document.getElementById('btn-close-new-wedding').addEventListener('click', closeNewWedding);
+        document.getElementById('btn-cancel-new-wedding').addEventListener('click', closeNewWedding);
+        document.getElementById('backdrop-new-wedding').addEventListener('click', closeNewWedding);
+
+        document.getElementById('new-wedding-tarjeta-toggle').addEventListener('change', (e) => {
+          const pBox = document.getElementById('new-wedding-pricing-box');
+          if (e.target.checked) pBox.classList.remove('hidden');
+          else pBox.classList.add('hidden');
+          updateWeddingModeBadge(document.getElementById('new-wedding-mode-badge'), e.target.checked);
+        });
+
+        // Submit Nueva Boda
+        document.getElementById('form-new-wedding').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('new-wedding-name').value.trim();
+          if (!name) return;
+
+          const metaRecaudar = Number(document.getElementById('new-wedding-meta').value || 0);
+          const aporteNovios = Number(document.getElementById('new-wedding-aporte-novios').value || 0);
+          const tarjetaActiva = document.getElementById('new-wedding-tarjeta-toggle').checked;
+          const precioTarjeta = tarjetaActiva ? Number(document.getElementById('new-wedding-price').value || 0) : 0;
+
+          const newId = 'boda-' + Date.now();
+
+          db.weddings[newId] = {
+            id: newId,
+            name: name,
+            metaRecaudar: metaRecaudar,
+            aporteNovios: aporteNovios,
+            tarjetaActiva: tarjetaActiva,
+            precioTarjeta: precioTarjeta,
+            guests: []
+          };
+          db.activeWeddingId = newId;
+
+          saveDatabase();
+          closeNewWedding();
+          renderApp();
+          showToast(`¡Lista "${name}" creada y lista para gestionar!`);
+        });
+
+        // Modal Configuración Boda Activa
+        const modalCfg = document.getElementById('modal-config-wedding');
+        document.getElementById('btn-open-wedding-config').addEventListener('click', () => {
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+
+          document.getElementById('cfg-wedding-name').value = wedding.name;
+          document.getElementById('cfg-wedding-meta').value = wedding.metaRecaudar || '';
+          document.getElementById('cfg-wedding-aporte-novios').value = wedding.aporteNovios || '';
+          document.getElementById('cfg-tarjeta-toggle').checked = wedding.tarjetaActiva;
+          document.getElementById('cfg-card-price').value = wedding.precioTarjeta || 0;
+
+          const pBox = document.getElementById('cfg-pricing-box');
+          if (wedding.tarjetaActiva) pBox.classList.remove('hidden');
+          else pBox.classList.add('hidden');
+          updateWeddingModeBadge(document.getElementById('cfg-wedding-mode-badge'), wedding.tarjetaActiva);
+
+          modalCfg.classList.remove('hidden');
+        });
+
+        const closeConfigWedding = () => modalCfg.classList.add('hidden');
+        document.getElementById('btn-close-config-wedding').addEventListener('click', closeConfigWedding);
+        document.getElementById('btn-cancel-config-wedding').addEventListener('click', closeConfigWedding);
+        document.getElementById('backdrop-config-wedding').addEventListener('click', closeConfigWedding);
+
+        document.getElementById('cfg-tarjeta-toggle').addEventListener('change', (e) => {
+          const pBox = document.getElementById('cfg-pricing-box');
+          if (e.target.checked) pBox.classList.remove('hidden');
+          else pBox.classList.add('hidden');
+          updateWeddingModeBadge(document.getElementById('cfg-wedding-mode-badge'), e.target.checked);
+        });
+
+        document.getElementById('form-config-wedding').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+
+          wedding.name = document.getElementById('cfg-wedding-name').value.trim() || wedding.name;
+          wedding.metaRecaudar = Number(document.getElementById('cfg-wedding-meta').value || 0);
+          wedding.aporteNovios = Number(document.getElementById('cfg-wedding-aporte-novios').value || 0);
+          wedding.tarjetaActiva = document.getElementById('cfg-tarjeta-toggle').checked;
+          wedding.precioTarjeta = wedding.tarjetaActiva ? Number(document.getElementById('cfg-card-price').value || 0) : 0;
+
+          saveDatabase();
+          closeConfigWedding();
+          renderApp();
+          showToast('Configuración de la boda actualizada.');
+        });
+
+        // Eliminar boda activa (si no quedan bodas, regresa automáticamente a Zero State)
+        document.getElementById('btn-delete-active-wedding').addEventListener('click', () => {
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+
+          if (confirm(`¿Eliminar definitivamente la lista "${wedding.name}" y todos sus invitados?`)) {
+            const oldId = db.activeWeddingId;
+            delete db.weddings[oldId];
+
+            const remainingKeys = Object.keys(db.weddings);
+            db.activeWeddingId = remainingKeys.length > 0 ? remainingKeys[0] : null;
+
+            saveDatabase();
+            closeConfigWedding();
+            renderApp();
+            showToast('Lista de boda eliminada.');
+          }
+        });
+
+        // Selector de Bodas
+        document.getElementById('wedding-selector').addEventListener('change', (e) => {
+          const selectedId = e.target.value;
+          if (db.weddings[selectedId]) {
+            db.activeWeddingId = selectedId;
+            saveDatabase();
+            state.activeFilter = 'todos';
+            state.searchQuery = '';
+            document.getElementById('input-search-guest').value = '';
+            document.getElementById('btn-clear-search').classList.add('hidden');
+            document.querySelectorAll('.filter-pill').forEach(b => {
+              b.classList.toggle('active', b.dataset.filter === 'todos');
+              b.classList.toggle('bg-stone-900', b.dataset.filter === 'todos');
+              b.classList.toggle('text-white', b.dataset.filter === 'todos');
+              b.classList.toggle('border-stone-900', b.dataset.filter === 'todos');
+            });
+            renderApp();
+            showToast(`Cambiado a: ${db.weddings[selectedId].name}`);
+          }
+        });
+
+        // Modal Rápido de Monto
+        const modalQuick = document.getElementById('modal-quick-amount');
+        const closeQuickModal = () => modalQuick.classList.add('hidden');
+        document.getElementById('btn-close-quick-amount').addEventListener('click', closeQuickModal);
+        document.getElementById('btn-cancel-quick-amount').addEventListener('click', closeQuickModal);
+        document.getElementById('backdrop-quick-amount').addEventListener('click', closeQuickModal);
+
+        document.getElementById('form-quick-amount').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const guestId = document.getElementById('quick-guest-id').value;
+          const newVal = Number(document.getElementById('input-quick-amount-val').value || 0);
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+          const guest = wedding.guests.find(g => g.id == guestId);
+          if (guest) {
+            guest.montoAportado = newVal;
+            saveDatabase();
+            closeQuickModal();
+            renderApp();
+            showToast(`Monto de ${guest.name} actualizado a ${formatMoney(newVal)}`);
+          }
+        });
+
+        document.getElementById('btn-quick-full').addEventListener('click', () => {
+          const wedding = getActiveWedding();
+          document.getElementById('input-quick-amount-val').value = wedding ? wedding.precioTarjeta || 0 : 0;
+        });
+        document.getElementById('btn-quick-half').addEventListener('click', () => {
+          const wedding = getActiveWedding();
+          document.getElementById('input-quick-amount-val').value = wedding ? Math.round((wedding.precioTarjeta || 0) / 2) : 0;
+        });
+        document.getElementById('btn-quick-zero').addEventListener('click', () => {
+          document.getElementById('input-quick-amount-val').value = 0;
+        });
+
+        // Modal Editar Invitado
+        const modalEdit = document.getElementById('modal-edit-guest');
+        const closeEditModal = () => modalEdit.classList.add('hidden');
+        document.getElementById('btn-close-edit-guest').addEventListener('click', closeEditModal);
+        document.getElementById('btn-cancel-edit-guest').addEventListener('click', closeEditModal);
+        document.getElementById('backdrop-edit-guest').addEventListener('click', closeEditModal);
+
+        document.getElementById('edit-restriccion').addEventListener('change', (e) => {
+          const box = document.getElementById('edit-diet-notes-box');
+          if (e.target.value === 'Otro') box.classList.remove('hidden');
+          else box.classList.add('hidden');
+        });
+
+        document.getElementById('edit-paga-tarjeta').addEventListener('change', (e) => {
+          const amountBox = document.getElementById('edit-amount-box');
+          if (e.target.value === 'si') {
+            amountBox.classList.remove('hidden');
+          } else {
+            amountBox.classList.add('hidden');
+            document.getElementById('edit-monto').value = 0;
+          }
+        });
+
+        document.getElementById('form-edit-guest').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const guestId = document.getElementById('edit-guest-id').value;
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+          const guest = wedding.guests.find(g => g.id == guestId);
+          if (guest) {
+            guest.name = document.getElementById('edit-name').value.trim();
+            guest.tipo = document.getElementById('edit-tipo').value;
+            guest.asistencia = document.getElementById('edit-asistencia').value;
+            guest.restriccion = document.getElementById('edit-restriccion').value;
+            guest.notasRestriccion = guest.restriccion === 'Otro' ? document.getElementById('edit-diet-notes').value.trim() : '';
+            if (wedding.tarjetaActiva) {
+              const paga = document.getElementById('edit-paga-tarjeta').value === 'si';
+              guest.pagaTarjeta = paga;
+              guest.montoAportado = paga ? Number(document.getElementById('edit-monto').value || 0) : 0;
+            } else {
+              guest.pagaTarjeta = false;
+              guest.montoAportado = 0;
+            }
+            saveDatabase();
+            closeEditModal();
+            renderApp();
+            showToast(`Invitado ${guest.name} actualizado`);
+          }
+        });
+
+        // Modal Eliminar Invitado
+        const modalDelete = document.getElementById('modal-delete-confirm');
+        const closeDeleteModal = () => {
+          modalDelete.classList.add('hidden');
+          state.deletingGuestId = null;
+        };
+        document.getElementById('btn-cancel-delete').addEventListener('click', closeDeleteModal);
+        document.getElementById('backdrop-delete-confirm').addEventListener('click', closeDeleteModal);
+        document.getElementById('btn-confirm-delete').addEventListener('click', () => {
+          if (!state.deletingGuestId) return;
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+          const idx = wedding.guests.findIndex(g => g.id == state.deletingGuestId);
+          if (idx !== -1) {
+            const removed = wedding.guests.splice(idx, 1)[0];
+            saveDatabase();
+            closeDeleteModal();
+            renderApp();
+            showToast(`${removed.name} ha sido eliminado`);
+          }
+        });
+      }
+
+      // 5. FORMULARIO DE REGISTRO RÁPIDO
+      function setupAddForm() {
+        const form = document.getElementById('form-add-guest');
+        const dietSelect = document.getElementById('select-add-diet');
+        const notesBox = document.getElementById('field-wrapper-add-diet-notes');
+        const amountInput = document.getElementById('input-add-amount');
+        const pagaSelect = document.getElementById('select-add-paga-tarjeta');
+        const amountWrapper = document.getElementById('field-wrapper-add-amount');
+        const quickPresets = document.getElementById('quick-amount-presets');
+
+        dietSelect.addEventListener('change', (e) => {
+          if (e.target.value === 'Otro') {
+            notesBox.classList.remove('hidden');
+          } else {
+            notesBox.classList.add('hidden');
+          }
+        });
+
+        pagaSelect.addEventListener('change', (e) => {
+          if (e.target.value === 'no') {
+            amountWrapper.classList.add('hidden');
+            quickPresets.classList.add('hidden');
+            amountInput.value = 0;
+          } else {
+            amountWrapper.classList.remove('hidden');
+            quickPresets.classList.remove('hidden');
+          }
+        });
+
+        document.getElementById('btn-preset-full').addEventListener('click', () => {
+          const wedding = getActiveWedding();
+          amountInput.value = wedding ? wedding.precioTarjeta || 0 : 0;
+        });
+        document.getElementById('btn-preset-zero').addEventListener('click', () => {
+          amountInput.value = 0;
+        });
+
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+
+          const name = document.getElementById('input-add-name').value.trim();
+          if (!name) return;
+
+          const tipo = document.getElementById('select-add-type').value;
+          const asistencia = document.getElementById('select-add-rsvp').value;
+          const restriccion = dietSelect.value;
+          const notasRestriccion = restriccion === 'Otro' ? document.getElementById('input-add-diet-notes').value.trim() : '';
+          const pagaTarjeta = wedding.tarjetaActiva ? (pagaSelect.value === 'si') : false;
+          const montoAportado = (wedding.tarjetaActiva && pagaTarjeta) ? Number(amountInput.value || 0) : 0;
+
+          const newGuest = {
+            id: Date.now(),
+            name,
+            tipo,
+            asistencia,
+            restriccion,
+            notasRestriccion,
+            pagaTarjeta,
+            montoAportado
+          };
+
+          wedding.guests.push(newGuest);
+          saveDatabase();
+
+          form.reset();
+          notesBox.classList.add('hidden');
+          document.getElementById('select-add-rsvp').value = 'en_duda';
+          pagaSelect.value = 'si';
+          if (wedding.tarjetaActiva) {
+            amountWrapper.classList.remove('hidden');
+            quickPresets.classList.remove('hidden');
+          }
+          document.getElementById('input-add-name').focus();
+
+          renderApp();
+          showToast(`Invitado ${name} registrado con éxito.`);
+        });
+      }
+
+      // 6. FILTROS Y BÚSQUEDA
+      function setupSearchAndFilters() {
+        const searchInput = document.getElementById('input-search-guest');
+        const clearBtn = document.getElementById('btn-clear-search');
+
+        searchInput.addEventListener('input', (e) => {
+          state.searchQuery = e.target.value;
+          if (state.searchQuery) {
+            clearBtn.classList.remove('hidden');
+          } else {
+            clearBtn.classList.add('hidden');
+          }
+          const wedding = getActiveWedding();
+          if (wedding) {
+            renderGuestsGrid(wedding);
+            lucide.createIcons();
+          }
+        });
+
+        clearBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          state.searchQuery = '';
+          clearBtn.classList.add('hidden');
+          const wedding = getActiveWedding();
+          if (wedding) {
+            renderGuestsGrid(wedding);
+            lucide.createIcons();
+          }
+          searchInput.focus();
+        });
+
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            document.querySelectorAll('.filter-pill').forEach(p => {
+              p.classList.remove('active', 'bg-stone-900', 'text-white', 'border-stone-900');
+              p.classList.add('text-stone-600', 'border-stone-200');
+            });
+
+            pill.classList.add('active', 'bg-stone-900', 'text-white', 'border-stone-900');
+            pill.classList.remove('text-stone-600', 'border-stone-200');
+
+            state.activeFilter = pill.dataset.filter;
+            const wedding = getActiveWedding();
+            if (wedding) {
+              renderGuestsGrid(wedding);
+              lucide.createIcons();
+            }
+          });
+        });
+
+        document.getElementById('btn-reset-filters').addEventListener('click', () => {
+          state.searchQuery = '';
+          state.activeFilter = 'todos';
+          searchInput.value = '';
+          clearBtn.classList.add('hidden');
+          document.querySelector('.filter-pill[data-filter="todos"]').click();
+        });
+      }
+
+      // 7. ACCIONES DE LA GRILLA
+      function setupGridActions() {
+        const handleAction = (e) => {
+          const btnCycle = e.target.closest('.btn-cycle-rsvp');
+          if (btnCycle) {
+            cycleGuestRsvp(btnCycle.dataset.id);
+            return;
+          }
+
+          const btnQuickPay = e.target.closest('.btn-quick-pay');
+          if (btnQuickPay) {
+            const wedding = getActiveWedding();
+            if (!wedding) return;
+            const guest = wedding.guests.find(g => g.id == btnQuickPay.dataset.id);
+            if (guest) {
+              document.getElementById('quick-guest-id').value = guest.id;
+              document.getElementById('quick-guest-name').textContent = guest.name;
+              document.getElementById('input-quick-amount-val').value = guest.montoAportado || 0;
+              document.getElementById('modal-quick-amount').classList.remove('hidden');
+              document.getElementById('input-quick-amount-val').focus();
+            }
+            return;
+          }
+
+          const btnEdit = e.target.closest('.btn-edit-guest');
+          if (btnEdit) {
+            const wedding = getActiveWedding();
+            if (!wedding) return;
+            const guest = wedding.guests.find(g => g.id == btnEdit.dataset.id);
+            if (guest) {
+              document.getElementById('edit-guest-id').value = guest.id;
+              document.getElementById('edit-name').value = guest.name;
+              document.getElementById('edit-tipo').value = guest.tipo;
+              document.getElementById('edit-asistencia').value = guest.asistencia;
+              document.getElementById('edit-restriccion').value = guest.restriccion || 'Ninguna';
+              document.getElementById('edit-diet-notes').value = guest.notasRestriccion || '';
+
+              const notesBox = document.getElementById('edit-diet-notes-box');
+              if (guest.restriccion === 'Otro') notesBox.classList.remove('hidden');
+              else notesBox.classList.add('hidden');
+
+              const amountBox = document.getElementById('edit-amount-box');
+              const pagaBox = document.getElementById('edit-paga-tarjeta-box');
+              const pagaSelect = document.getElementById('edit-paga-tarjeta');
+
+              if (wedding.tarjetaActiva) {
+                pagaBox.classList.remove('hidden');
+                const pagaTarjetaVal = guest.pagaTarjeta !== false;
+                pagaSelect.value = pagaTarjetaVal ? 'si' : 'no';
+                if (pagaTarjetaVal) {
+                  amountBox.classList.remove('hidden');
+                  document.getElementById('edit-monto').value = guest.montoAportado || 0;
+                } else {
+                  amountBox.classList.add('hidden');
+                  document.getElementById('edit-monto').value = 0;
+                }
+              } else {
+                pagaBox.classList.add('hidden');
+                amountBox.classList.add('hidden');
+              }
+
+              document.getElementById('modal-edit-guest').classList.remove('hidden');
+              document.getElementById('edit-name').focus();
+            }
+            return;
+          }
+
+          const btnDelete = e.target.closest('.btn-delete-guest');
+          if (btnDelete) {
+            const wedding = getActiveWedding();
+            if (!wedding) return;
+            const guest = wedding.guests.find(g => g.id == btnDelete.dataset.id);
+            if (guest) {
+              state.deletingGuestId = guest.id;
+              document.getElementById('delete-confirm-guest-name').textContent = guest.name;
+              document.getElementById('modal-delete-confirm').classList.remove('hidden');
+            }
+            return;
+          }
+        };
+
+        document.getElementById('guests-table-body').addEventListener('click', handleAction);
+        document.getElementById('guests-cards-container').addEventListener('click', handleAction);
+      }
+
+      // 8. EXPORTACIÓN A CSV Y REPORTE PDF
+      function setupExportAndPrint() {
+        document.getElementById('btn-export-csv').addEventListener('click', () => {
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+
+          const guests = wedding.guests || [];
+          const basePrice = Number(wedding.precioTarjeta) || 0;
+          const fondoNovios = Number(wedding.aporteNovios) || 0;
+          const metaRecaudar = Number(wedding.metaRecaudar) || 0;
+
+          const headers = [
+            'ID Invitado',
+            'Boda',
+            'Fondo Inicial Novios',
+            'Meta Presupuestaria',
+            'Nombre y Apellido',
+            'Categoría',
+            'Asistencia',
+            'Restricción Alimentaria',
+            'Notas de Dieta',
+            'Abona Tarjeta',
+            'Tarifa Sugerida Tarjeta',
+            'Monto Aportado por Invitado',
+            'Saldo Restante Invitado',
+            'Estado de Pago'
+          ];
+
+          const rows = guests.map(g => {
+            const monto = Number(g.montoAportado || 0);
+            const isExento = wedding.tarjetaActiva && g.pagaTarjeta === false;
+            let saldo = 0;
+            let estadoPago = 'No Aplica';
+            let abonaTarjetaStr = 'No Aplica';
+
+            if (wedding.tarjetaActiva) {
+              if (isExento) {
+                abonaTarjetaStr = 'Exento / No Abona';
+                saldo = 0;
+                estadoPago = 'Exento';
+              } else {
+                abonaTarjetaStr = 'Sí';
+                saldo = Math.max(0, basePrice - monto);
+                if (monto >= basePrice && basePrice > 0) estadoPago = 'Total Abonado';
+                else if (monto > 0) estadoPago = `Parcial (Resta $${saldo})`;
+                else estadoPago = 'Pendiente';
+              }
+            }
+
+            const cleanStr = (val) => `"${String(val || '').replace(/"/g, '""')}"`;
+
+            return [
+              cleanStr(g.id),
+              cleanStr(wedding.name),
+              cleanStr(fondoNovios),
+              cleanStr(metaRecaudar),
+              cleanStr(g.name),
+              cleanStr(g.tipo === 'menor' ? 'Menor' : 'Adulto'),
+              cleanStr(g.asistencia),
+              cleanStr(g.restriccion || 'Ninguna'),
+              cleanStr(g.notasRestriccion || ''),
+              cleanStr(abonaTarjetaStr),
+              cleanStr((wedding.tarjetaActiva && !isExento) ? basePrice : 0),
+              cleanStr((wedding.tarjetaActiva && !isExento) ? monto : 0),
+              cleanStr((wedding.tarjetaActiva && !isExento) ? saldo : 0),
+              cleanStr(estadoPago)
+            ].join(',');
+          });
+
+          // UTF-8 BOM (\uFEFF) para visualización nativa en Excel y Google Sheets
+          const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+
+          const safeWeddingName = wedding.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+          link.setAttribute('href', url);
+          link.setAttribute('download', `reporte_${safeWeddingName}_${new Date().toISOString().slice(0,10)}.csv`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+
+          showToast('CSV descargado con éxito con formato UTF-8 BOM.');
+        });
+
+        document.getElementById('btn-print-pdf').addEventListener('click', () => {
+          const wedding = getActiveWedding();
+          if (wedding) {
+            renderPrintHeader(wedding);
+            window.print();
+          }
+        });
+      }
+
+      // 9. MÓDULO DE IMPORTACIÓN UNIVERSAL DESDE GOOGLE SHEETS / CSV
+      function setupImportModule() {
+        const modal = document.getElementById('modal-import-sheets');
+        const backdrop = document.getElementById('backdrop-import-sheets');
+        const btnClose = document.getElementById('btn-close-import');
+        const btnCancel = document.getElementById('btn-cancel-import');
+        const btnConfirm = document.getElementById('btn-confirm-import');
+
+        const tabPaste = document.getElementById('tab-import-paste');
+        const tabFile = document.getElementById('tab-import-file');
+        const panelPaste = document.getElementById('panel-import-paste');
+        const panelFile = document.getElementById('panel-import-file');
+
+        const textareaPaste = document.getElementById('textarea-import-paste');
+        const btnParsePaste = document.getElementById('btn-parse-paste');
+
+        const dropZone = document.getElementById('drop-zone-csv');
+        const inputFile = document.getElementById('input-file-csv');
+        const fileChosenWrapper = document.getElementById('file-chosen-wrapper');
+        const fileChosenName = document.getElementById('file-chosen-name');
+
+        const previewSection = document.getElementById('import-preview-section');
+        const previewTitle = document.getElementById('import-preview-title');
+        const previewStats = document.getElementById('import-preview-stats');
+        const previewTbody = document.getElementById('import-preview-tbody');
+
+        const btnDownloadTemplate = document.getElementById('btn-download-template');
+        const btnOpenHeader = document.getElementById('btn-open-import');
+        const btnQuickTrigger = document.getElementById('btn-quick-import-trigger');
+
+        let stagedGuests = [];
+
+        function openModal() {
+          const wedding = getActiveWedding();
+          if (!wedding) {
+            showToast('Crea o selecciona una boda antes de importar.', 'error');
+            return;
+          }
+
+          stagedGuests = [];
+          textareaPaste.value = '';
+          inputFile.value = '';
+          fileChosenWrapper.classList.add('hidden');
+          fileChosenName.textContent = '';
+          previewSection.classList.add('hidden');
+          previewTbody.innerHTML = '';
+          btnConfirm.disabled = true;
+
+          switchTab('paste');
+          modal.classList.remove('hidden');
+          textareaPaste.focus();
+          lucide.createIcons({ root: modal });
+        }
+
+        function closeModal() {
+          modal.classList.add('hidden');
+          stagedGuests = [];
+        }
+
+        function switchTab(tab) {
+          if (tab === 'paste') {
+            tabPaste.className = 'py-2.5 px-4 text-xs font-semibold border-b-2 border-stone-900 text-stone-900 transition-smooth inline-flex items-center gap-1.5';
+            tabPaste.setAttribute('aria-selected', 'true');
+            tabFile.className = 'py-2.5 px-4 text-xs font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-700 transition-smooth inline-flex items-center gap-1.5';
+            tabFile.setAttribute('aria-selected', 'false');
+            panelPaste.classList.remove('hidden');
+            panelFile.classList.add('hidden');
+          } else {
+            tabFile.className = 'py-2.5 px-4 text-xs font-semibold border-b-2 border-stone-900 text-stone-900 transition-smooth inline-flex items-center gap-1.5';
+            tabFile.setAttribute('aria-selected', 'true');
+            tabPaste.className = 'py-2.5 px-4 text-xs font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-700 transition-smooth inline-flex items-center gap-1.5';
+            tabPaste.setAttribute('aria-selected', 'false');
+            panelFile.classList.remove('hidden');
+            panelPaste.classList.add('hidden');
+          }
+          lucide.createIcons({ root: modal });
+        }
+
+        // Parser nativo tolerante a delimitadores (\t, ;, ,) y comillas
+        function parseDelimitedText(text) {
+          if (!text || !text.trim()) return [];
+
+          const cleanText = text.replace(/^\uFEFF/, '').trim();
+          if (!cleanText) return [];
+
+          const linesSample = cleanText.split(/\r\n|\r|\n/).slice(0, 3).join(' ');
+          const tabCount = (linesSample.match(/\t/g) || []).length;
+          const semicolonCount = (linesSample.match(/;/g) || []).length;
+          const commaCount = (linesSample.match(/,/g) || []).length;
+
+          let delimiter = ',';
+          if (tabCount > 0 && tabCount >= semicolonCount && tabCount >= commaCount) {
+            delimiter = '\t';
+          } else if (semicolonCount > commaCount) {
+            delimiter = ';';
+          } else {
+            delimiter = ',';
+          }
+
+          const rows = [];
+          let currentRow = [];
+          let currentVal = '';
+          let insideQuote = false;
+
+          for (let i = 0; i < cleanText.length; i++) {
+            const char = cleanText[i];
+            const nextChar = cleanText[i + 1];
+
+            if (char === '"') {
+              if (insideQuote && nextChar === '"') {
+                currentVal += '"';
+                i++;
+              } else {
+                insideQuote = !insideQuote;
+              }
+            } else if (char === delimiter && !insideQuote) {
+              currentRow.push(currentVal.trim());
+              currentVal = '';
+            } else if ((char === '\r' || char === '\n') && !insideQuote) {
+              if (char === '\r' && nextChar === '\n') {
+                i++;
+              }
+              currentRow.push(currentVal.trim());
+              currentVal = '';
+              if (currentRow.some(c => c.length > 0)) {
+                rows.push(currentRow);
+              }
+              currentRow = [];
+            } else {
+              currentVal += char;
+            }
+          }
+
+          if (currentVal.length > 0 || currentRow.length > 0) {
+            currentRow.push(currentVal.trim());
+            if (currentRow.some(c => c.length > 0)) {
+              rows.push(currentRow);
+            }
+          }
+
+          return rows;
+        }
+
+        // Mapeo inteligente de encabezados y normalización de tipos
+        function mapHeadersAndRows(rows, wedding) {
+          if (!rows || rows.length === 0) return [];
+
+          const firstRow = rows[0];
+          const isHeaderRow = firstRow.some(cell => {
+            const lower = cell.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            return lower.includes('nombre') || lower.includes('invitado') || lower.includes('name') || 
+                   lower.includes('asist') || lower.includes('rsvp') || lower.includes('categor') ||
+                   lower.includes('diet') || lower.includes('menu') || lower.includes('tarjeta') ||
+                   lower.includes('monto') || lower.includes('paga') || lower.includes('abona');
+          });
+
+          let colMap = {
+            name: 0,
+            tipo: -1,
+            asistencia: -1,
+            restriccion: -1,
+            pagaTarjeta: -1,
+            montoAportado: -1
+          };
+
+          let dataRows = rows;
+
+          if (isHeaderRow) {
+            dataRows = rows.slice(1);
+            firstRow.forEach((h, idx) => {
+              const lower = h.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+              if (colMap.name === 0 && (lower.includes('nombre') || lower.includes('invitado') || lower.includes('persona') || lower.includes('name'))) {
+                colMap.name = idx;
+              } else if (colMap.tipo === -1 && (lower.includes('categor') || lower.includes('tipo') || lower.includes('edad') || lower.includes('adulto'))) {
+                colMap.tipo = idx;
+              } else if (colMap.asistencia === -1 && (lower.includes('asist') || lower.includes('rsvp') || lower.includes('confirma') || lower.includes('estado'))) {
+                colMap.asistencia = idx;
+              } else if (colMap.restriccion === -1 && (lower.includes('diet') || lower.includes('menu') || lower.includes('restric') || lower.includes('alerg'))) {
+                colMap.restriccion = idx;
+              } else if (colMap.pagaTarjeta === -1 && (lower.includes('abona') || lower.includes('paga') || lower.includes('tarjeta') || lower.includes('exento'))) {
+                colMap.pagaTarjeta = idx;
+              } else if (colMap.montoAportado === -1 && (lower.includes('monto') || lower.includes('aporte') || lower.includes('pagado') || lower.includes('precio') || lower.includes('valor'))) {
+                colMap.montoAportado = idx;
+              }
+            });
+          } else {
+            colMap = {
+              name: 0,
+              tipo: firstRow.length > 1 ? 1 : -1,
+              asistencia: firstRow.length > 2 ? 2 : -1,
+              restriccion: firstRow.length > 3 ? 3 : -1,
+              pagaTarjeta: firstRow.length > 4 ? 4 : -1,
+              montoAportado: firstRow.length > 5 ? 5 : -1
+            };
+          }
+
+          const parsedGuests = [];
+
+          dataRows.forEach(row => {
+            const rawName = (row[colMap.name] || '').trim();
+            if (!rawName) return;
+
+            // 1. Categoría
+            let rawTipo = colMap.tipo !== -1 ? (row[colMap.tipo] || '').trim().toLowerCase() : '';
+            let tipo = 'adulto';
+            if (/niñ|hijo|chic|menor|infant|bebe|bebé|kid|child/.test(rawTipo)) {
+              tipo = 'menor';
+            }
+
+            // 2. Asistencia
+            let rawRsvp = colMap.asistencia !== -1 ? (row[colMap.asistencia] || '').trim().toLowerCase() : '';
+            let asistencia = 'en_duda';
+            if (/si|sí|confirma|confirmad|asiste|yes|ok/.test(rawRsvp)) {
+              asistencia = 'confirmado';
+            } else if (/no|cancela|cancelad|baja/.test(rawRsvp)) {
+              asistencia = 'cancelado';
+            }
+
+            // 3. Menú / Dieta
+            let rawDiet = colMap.restriccion !== -1 ? (row[colMap.restriccion] || '').trim() : '';
+            let restriccion = 'Ninguna';
+            let notasRestriccion = '';
+            const dietClean = rawDiet.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            if (!dietClean || /^(ningun|ninguno|ninguna|comun|normal|estandar|estándar|-|no)$/.test(dietClean)) {
+              restriccion = 'Ninguna';
+            } else if (/celiac|tacc/.test(dietClean)) {
+              restriccion = 'Celíaco';
+            } else if (/vegano/.test(dietClean)) {
+              restriccion = 'Vegano';
+            } else if (/vegetar/.test(dietClean)) {
+              restriccion = 'Vegetariano';
+            } else if (/hipertens|sin sal/.test(dietClean)) {
+              restriccion = 'Hipertenso';
+            } else {
+              restriccion = 'Otro';
+              notasRestriccion = rawDiet;
+            }
+
+            // 4. Abona Tarjeta
+            let pagaTarjeta = true;
+            if (wedding && !wedding.tarjetaActiva) {
+              pagaTarjeta = false;
+            } else if (colMap.pagaTarjeta !== -1) {
+              const rawPaga = (row[colMap.pagaTarjeta] || '').trim().toLowerCase();
+              if (/no|exento|false|0|ningun/.test(rawPaga)) {
+                pagaTarjeta = false;
+              } else {
+                pagaTarjeta = true;
+              }
+            }
+
+            // 5. Monto Aportado
+            let montoAportado = 0;
+            if (wedding && wedding.tarjetaActiva && pagaTarjeta && colMap.montoAportado !== -1) {
+              const rawMonto = (row[colMap.montoAportado] || '').toString();
+              const cleanNum = rawMonto.replace(/[$\s]/g, '').replace(/\./g, '').replace(/,/g, '.');
+              const val = parseFloat(cleanNum);
+              if (!isNaN(val) && val >= 0) {
+                montoAportado = Math.round(val);
+              }
+            }
+
+            parsedGuests.push({
+              name: rawName,
+              tipo,
+              asistencia,
+              restriccion,
+              notasRestriccion,
+              pagaTarjeta,
+              montoAportado
+            });
+          });
+
+          return parsedGuests;
+        }
+
+        function processRawInput(text) {
+          const wedding = getActiveWedding();
+          if (!wedding) return;
+
+          const rows = parseDelimitedText(text);
+          stagedGuests = mapHeadersAndRows(rows, wedding);
+
+          if (stagedGuests.length > 0) {
+            const countAdultos = stagedGuests.filter(g => g.tipo === 'adulto').length;
+            const countMenores = stagedGuests.filter(g => g.tipo === 'menor').length;
+            const countDietas = stagedGuests.filter(g => g.restriccion !== 'Ninguna').length;
+            const countConfirmados = stagedGuests.filter(g => g.asistencia === 'confirmado').length;
+
+            previewTitle.textContent = `${stagedGuests.length} invitados listos para importar`;
+            previewStats.textContent = `${countAdultos} Adultos · ${countMenores} Menores · ${countDietas} Dietas esp. · ${countConfirmados} Confirmados`;
+
+            previewTbody.innerHTML = stagedGuests.slice(0, 100).map((g, idx) => `
+              <tr class="hover:bg-stone-50 transition-smooth">
+                <td class="py-1.5 px-3 text-stone-400 font-mono text-[11px]">${idx + 1}</td>
+                <td class="py-1.5 px-3 font-medium text-stone-900">${escapeHtml(g.name)}</td>
+                <td class="py-1.5 px-3 capitalize text-stone-600">${g.tipo}</td>
+                <td class="py-1.5 px-3">
+                  <span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${
+                    g.asistencia === 'confirmado' ? 'bg-emerald-50 text-emerald-700' :
+                    g.asistencia === 'cancelado' ? 'bg-rose-50 text-rose-700' : 'bg-amber-50 text-amber-700'
+                  }">${g.asistencia}</span>
+                </td>
+                <td class="py-1.5 px-3 text-stone-600">${escapeHtml(g.restriccion)}${g.notasRestriccion ? ` (${escapeHtml(g.notasRestriccion)})` : ''}</td>
+                <td class="py-1.5 px-3 text-stone-600">${wedding.tarjetaActiva ? (g.pagaTarjeta ? 'Sí' : 'No (Exento)') : 'No Aplica'}</td>
+                <td class="py-1.5 px-3 text-right font-semibold text-stone-900">${wedding.tarjetaActiva ? formatMoney(g.montoAportado) : '$0'}</td>
+              </tr>
+            `).join('');
+
+            previewSection.classList.remove('hidden');
+            btnConfirm.disabled = false;
+          } else {
+            previewSection.classList.add('hidden');
+            previewTbody.innerHTML = '';
+            btnConfirm.disabled = true;
+            if (text && text.trim().length > 0) {
+              showToast('No se detectaron registros válidos con nombres.', 'error');
+            }
+          }
+        }
+
+        function handleFile(file) {
+          if (!file) return;
+          fileChosenName.textContent = file.name;
+          fileChosenWrapper.classList.remove('hidden');
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            processRawInput(e.target.result);
+          };
+          reader.onerror = () => {
+            showToast('Error al leer el archivo seleccionado.', 'error');
+          };
+          reader.readAsText(file, 'UTF-8');
+        }
+
+        // Event Listeners
+        btnOpenHeader.addEventListener('click', openModal);
+        btnQuickTrigger.addEventListener('click', openModal);
+
+        btnClose.addEventListener('click', closeModal);
+        btnCancel.addEventListener('click', closeModal);
+        backdrop.addEventListener('click', closeModal);
+
+        tabPaste.addEventListener('click', () => switchTab('paste'));
+        tabFile.addEventListener('click', () => switchTab('file'));
+
+        btnParsePaste.addEventListener('click', () => processRawInput(textareaPaste.value));
+        let pasteTimeout = null;
+        textareaPaste.addEventListener('input', () => {
+          clearTimeout(pasteTimeout);
+          pasteTimeout = setTimeout(() => {
+            if (textareaPaste.value.trim().length > 0) {
+              processRawInput(textareaPaste.value);
+            } else {
+              stagedGuests = [];
+              previewSection.classList.add('hidden');
+              btnConfirm.disabled = true;
+            }
+          }, 300);
+        });
+
+        dropZone.addEventListener('click', () => inputFile.click());
+        inputFile.addEventListener('change', (e) => {
+          if (e.target.files && e.target.files[0]) {
+            handleFile(e.target.files[0]);
+          }
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.add('border-stone-900', 'bg-stone-100');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.remove('border-stone-900', 'bg-stone-100');
+          });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+          if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleFile(e.dataTransfer.files[0]);
+          }
+        });
+
+        // Descarga de Plantilla
+        btnDownloadTemplate.addEventListener('click', () => {
+          const headers = [
+            'Nombre y Apellido',
+            'Categoría',
+            'Asistencia',
+            'Menú / Dieta',
+            'Abona Tarjeta',
+            'Monto Aportado'
+          ];
+          const sampleRows = [
+            'Camila Morales,Adulto,Confirmado,Ninguna,Sí,45000',
+            'Lucas Romero,Adulto,Confirmado,Celíaco / Sin TACC,Sí,45000',
+            'Sofía Gómez,Menor,En Duda,Ninguna,No,0',
+            'Martín Pérez,Adulto,Cancelado,Vegano,No,0'
+          ];
+          const csvContent = '\uFEFF' + [headers.join(','), ...sampleRows].join('\r\n');
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.setAttribute('href', url);
+          link.setAttribute('download', 'plantilla_invitados_google_sheets.csv');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          showToast('Plantilla descargada. Ábrela en Sheets o Excel para cargar datos.');
+        });
+
+        // Confirmación e incorporación al estado persistente
+        btnConfirm.addEventListener('click', () => {
+          const wedding = getActiveWedding();
+          if (!wedding || !stagedGuests || stagedGuests.length === 0) return;
+
+          const baseTimestamp = Date.now();
+          stagedGuests.forEach((g, idx) => {
+            const uniqueId = baseTimestamp + Math.random() + idx;
+            wedding.guests.push({
+              id: uniqueId,
+              name: g.name,
+              tipo: g.tipo,
+              asistencia: g.asistencia,
+              restriccion: g.restriccion,
+              notasRestriccion: g.notasRestriccion,
+              pagaTarjeta: g.pagaTarjeta,
+              montoAportado: g.montoAportado
+            });
+          });
+
+          saveDatabase();
+          closeModal();
+          renderApp();
+          showToast(`Se importaron ${stagedGuests.length} invitados exitosamente.`);
+        });
+      }
+
+      // 10. INICIALIZACIÓN
+      function init() {
+        setupModals();
+        setupAddForm();
+        setupSearchAndFilters();
+        setupGridActions();
+        setupExportAndPrint();
+        setupImportModule();
+
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            document.querySelectorAll('[role="dialog"]').forEach(m => m.classList.add('hidden'));
+            state.deletingGuestId = null;
+          }
+        });
+
+        renderApp();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
