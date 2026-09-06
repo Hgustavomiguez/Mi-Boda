@@ -8,6 +8,9 @@
   <meta property="og:title" content="Wedding Registry & Finance Hub">
   <meta property="og:description" content="Plataforma de gestión de invitados, menús especiales y balance presupuestario para bodas">
 
+  <!-- Favicon SVG Inline: Símbolo "&" en fondo stone-900 (#1c1917) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231c1917'/><text x='50%' y='58%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='600' font-size='62' fill='%23fafaf9'>&amp;</text></svg>">
+
   <!-- Tipografías Google Fonts: Cormorant Garamond y Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -149,32 +152,32 @@
           </div>
         </div>
 
-        <!-- Botones de Acción en Cabecera -->
-        <div class="flex items-center flex-wrap gap-2 sm:gap-2.5">
+        <!-- Botones de Acción en Cabecera (Alineados en una sola fila compacta) -->
+        <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
           <!-- Botón + Nueva Boda (siempre accesible) -->
-          <button type="button" id="btn-open-new-wedding" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-800 bg-stone-100 border border-stone-300 hover:bg-stone-200 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth shadow-xs" title="Crear otra lista de boda">
+          <button type="button" id="btn-open-new-wedding" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-800 bg-stone-100 border border-stone-300 hover:bg-stone-200 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-all shadow-xs" title="Crear otra lista de boda">
             <i data-lucide="folder-plus" class="w-4 h-4 text-stone-600"></i>
             <span>+ Nueva Boda</span>
           </button>
 
           <!-- Acciones que solo aparecen cuando hay una boda activa -->
           <div id="header-wedding-actions" class="flex items-center gap-2 sm:gap-2.5">
-            <button type="button" id="btn-open-wedding-config" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-50 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth shadow-xs" title="Ajustes de presupuesto, tarjeta y meta de esta boda">
+            <button type="button" id="btn-open-wedding-config" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-100 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-all shadow-xs" title="Ajustes de presupuesto, tarjeta, meta y copias de seguridad">
               <i data-lucide="sliders-horizontal" class="w-4 h-4 text-stone-500"></i>
               <span class="hidden sm:inline">Configuración</span>
             </button>
 
-            <button type="button" id="btn-open-import" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-50 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth shadow-xs" title="Importar lista de invitados desde Google Sheets o CSV">
+            <button type="button" id="btn-open-import" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-100 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-all shadow-xs" title="Importar lista de invitados desde Google Sheets o CSV">
               <i data-lucide="file-up" class="w-4 h-4 text-stone-600"></i>
               <span class="hidden sm:inline">Importar de Sheets</span>
             </button>
 
-            <button type="button" id="btn-export-csv" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-50 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth shadow-xs" title="Descargar CSV estructurado con UTF-8 BOM">
+            <button type="button" id="btn-export-csv" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg text-stone-700 bg-white border border-stone-300 hover:bg-stone-100 hover:text-stone-900 active:scale-95 focus:ring-2 focus:ring-stone-400 focus:outline-none transition-all shadow-xs" title="Descargar CSV estructurado con UTF-8 BOM">
               <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-700"></i>
               <span class="hidden sm:inline">Exportar CSV</span>
             </button>
 
-            <button type="button" id="btn-print-pdf" class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg text-white bg-stone-900 hover:bg-stone-800 active:scale-95 focus:ring-2 focus:ring-stone-600 focus:outline-none transition-smooth shadow-xs" title="Imprimir listado para recepción y catering">
+            <button type="button" id="btn-print-pdf" class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-medium rounded-lg text-white bg-stone-900 hover:bg-stone-800 active:scale-95 focus:ring-2 focus:ring-stone-600 focus:outline-none transition-all shadow-xs" title="Imprimir listado para recepción y catering">
               <i data-lucide="printer" class="w-4 h-4"></i>
               <span>Imprimir / PDF</span>
             </button>
@@ -224,10 +227,14 @@
         Gestiona la lista de invitados, dietas especiales, confirmaciones de asistencia y el balance presupuestario de la boda en un único panel centralizado.
       </p>
 
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-        <button type="button" id="btn-zero-create-wedding" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-stone-900 rounded-xl hover:bg-stone-800 active:scale-95 shadow-md transition-smooth">
+      <div class="mt-8 flex flex-col items-center justify-center gap-3">
+        <button type="button" id="btn-zero-create-wedding" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-stone-900 rounded-xl hover:bg-stone-800 active:scale-95 hover:shadow-lg shadow-md transition-smooth cursor-pointer">
           <i data-lucide="plus-circle" class="w-4 h-4"></i>
           <span>+ Crear mi Primera Boda</span>
+        </button>
+        <button type="button" id="btn-zero-restore-backup" class="text-xs text-stone-500 hover:text-stone-800 transition-smooth inline-flex items-center gap-1.5 pt-1 hover:underline underline-offset-2 font-medium cursor-pointer">
+          <i data-lucide="upload" class="w-3.5 h-3.5 text-stone-400"></i>
+          <span>¿Ya tienes una copia de seguridad? Restaurar archivo .json</span>
         </button>
       </div>
 
@@ -281,118 +288,132 @@
       <section aria-label="Métricas Clave de la Boda" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         
         <!-- KPI 1: Total Confirmados -->
-        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-smooth">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Total Confirmados</span>
-            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
-              <i data-lucide="user-check" class="w-4 h-4"></i>
+        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Total Confirmados</span>
+              <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                <i data-lucide="user-check" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span id="kpi-confirmed-count" class="text-3xl sm:text-4xl font-serif font-bold text-stone-900 leading-tight">0</span>
+              <span id="kpi-confirmed-percent" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                0%
+              </span>
             </div>
           </div>
-          <div class="mt-3 flex items-baseline gap-2">
-            <span id="kpi-confirmed-count" class="text-3xl font-serif font-bold text-stone-900">0</span>
-            <span id="kpi-confirmed-percent" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-              0%
-            </span>
+          <div class="mt-4 pt-3 border-t border-stone-100">
+            <p id="kpi-confirmed-breakdown" class="text-xs text-stone-500 font-medium">
+              0 Adultos • 0 Menores
+            </p>
           </div>
-          <p id="kpi-confirmed-breakdown" class="text-xs text-stone-500 mt-2 font-medium">
-            0 Adultos • 0 Menores
-          </p>
         </article>
 
         <!-- KPI 2: Pendientes de Confirmación -->
-        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-smooth">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Pendientes de RSVP</span>
-            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
-              <i data-lucide="help-circle" class="w-4 h-4"></i>
+        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Pendientes de RSVP</span>
+              <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span id="kpi-pending-count" class="text-3xl sm:text-4xl font-serif font-bold text-stone-900 leading-tight">0</span>
+              <span class="text-xs font-medium text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">En espera</span>
             </div>
           </div>
-          <div class="mt-3 flex items-baseline gap-2">
-            <span id="kpi-pending-count" class="text-3xl font-serif font-bold text-stone-900">0</span>
-            <span class="text-xs text-stone-400">en duda</span>
+          <div class="mt-4 pt-3 border-t border-stone-100">
+            <p id="kpi-declined-count" class="text-xs text-stone-500 font-medium">
+              0 Cancelados / No asisten
+            </p>
           </div>
-          <p id="kpi-declined-count" class="text-xs text-stone-500 mt-2 font-medium">
-            0 Cancelados / No asisten
-          </p>
         </article>
 
         <!-- KPI 3: Restricciones Alimentarias -->
-        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-smooth">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Menús Especiales</span>
-            <div class="w-8 h-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center">
-              <i data-lucide="utensils" class="w-4 h-4"></i>
+        <article class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Menús Especiales</span>
+              <div class="w-8 h-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center">
+                <i data-lucide="utensils" class="w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="mt-3 flex items-baseline gap-2">
+              <span id="kpi-special-diet-count" class="text-3xl sm:text-4xl font-serif font-bold text-stone-900 leading-tight">0</span>
+              <span class="text-xs font-medium text-stone-600 bg-stone-100 px-2.5 py-0.5 rounded-full border border-stone-200">Dietas activas</span>
             </div>
           </div>
-          <div class="mt-3 flex items-baseline gap-2">
-            <span id="kpi-special-diet-count" class="text-3xl font-serif font-bold text-stone-900">0</span>
-            <span class="text-xs text-stone-500 font-medium">dietas activas</span>
-          </div>
-          <div id="kpi-diet-badges" class="flex flex-wrap gap-1 mt-2 min-h-5">
-            <span class="text-xs text-stone-400">Sin dietas especiales</span>
+          <div class="mt-4 pt-3 border-t border-stone-100">
+            <div id="kpi-diet-badges" class="flex flex-wrap gap-1 min-h-[22px] items-center">
+              <span class="text-xs text-stone-400">Sin dietas especiales</span>
+            </div>
           </div>
         </article>
 
         <!-- KPI 4: MÓDULO FINANCIERO AVANZADO (Fondo Novios, Tarjetas, Total Acumulado, Meta y Saldo) -->
-        <article id="kpi-finance-card" class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-smooth">
-          <div class="flex items-center justify-between">
-            <span id="kpi-finance-title" class="text-xs font-semibold uppercase tracking-wider text-stone-500">Balance Financiero</span>
-            <div id="kpi-finance-icon" class="w-8 h-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center">
-              <i data-lucide="wallet" class="w-4 h-4"></i>
+        <article id="kpi-finance-card" class="bg-white rounded-xl border border-stone-200 p-5 shadow-xs hover:border-stone-300 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span id="kpi-finance-title" class="text-xs font-semibold uppercase tracking-wider text-stone-500">Balance Financiero</span>
+              <div id="kpi-finance-icon" class="w-8 h-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center">
+                <i data-lucide="wallet" class="w-4 h-4"></i>
+              </div>
             </div>
-          </div>
 
-          <!-- Bloque cuando tiene cobro de tarjeta o meta o aporte inicial -->
-          <div id="kpi-finance-active-block" class="mt-3 space-y-2.5">
-            <div class="flex items-baseline justify-between">
+            <!-- Bloque cuando tiene cobro de tarjeta o meta o aporte inicial -->
+            <div id="kpi-finance-active-block" class="mt-3 space-y-2.5">
+              <div class="flex items-baseline justify-between">
+                <div>
+                  <span class="text-[11px] text-stone-500 uppercase tracking-wider font-semibold block">Total Acumulado</span>
+                  <span id="kpi-total-accumulated" class="text-2xl sm:text-3xl font-serif font-bold text-stone-900 leading-tight">$0</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-[11px] text-stone-400 block">Meta Estimada</span>
+                  <span id="kpi-target-goal" class="text-xs sm:text-sm font-semibold text-stone-700">$0</span>
+                </div>
+              </div>
+
+              <!-- Desglose: Fondo Novios vs Tarjetas -->
+              <div class="grid grid-cols-2 gap-2 text-[11px] bg-stone-50 p-2 rounded-lg border border-stone-100">
+                <div>
+                  <span class="text-stone-400 block">Fondo Novios:</span>
+                  <span id="kpi-breakdown-couple" class="font-semibold text-stone-700">$0</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-stone-400 block">Por Tarjetas:</span>
+                  <span id="kpi-breakdown-cards" class="font-semibold text-emerald-700">$0</span>
+                </div>
+              </div>
+
+              <!-- Barra de avance hacia la meta -->
               <div>
-                <span class="text-[11px] text-stone-500 uppercase tracking-wider font-semibold block">Total Acumulado</span>
-                <span id="kpi-total-accumulated" class="text-2xl sm:text-3xl font-serif font-bold text-stone-900">$0</span>
+                <div class="flex items-center justify-between text-[11px] mb-1">
+                  <span id="kpi-progress-label" class="text-stone-500 font-medium">Progreso de la meta</span>
+                  <span id="kpi-progress-percent" class="font-bold text-emerald-700">0%</span>
+                </div>
+                <div class="w-full bg-stone-100 rounded-full h-1.5 overflow-hidden border border-stone-200">
+                  <div id="kpi-finance-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
               </div>
-              <div class="text-right">
-                <span class="text-[11px] text-stone-400 block">Meta Estimada</span>
-                <span id="kpi-target-goal" class="text-xs sm:text-sm font-semibold text-stone-700">$0</span>
+
+              <!-- Saldo restante -->
+              <div class="flex items-center justify-between text-xs pt-1 border-t border-stone-100">
+                <span id="kpi-balance-label" class="text-stone-500">Saldo para la meta:</span>
+                <span id="kpi-remaining-balance" class="font-bold text-stone-800">$0</span>
               </div>
             </div>
 
-            <!-- Desglose: Fondo Novios vs Tarjetas -->
-            <div class="grid grid-cols-2 gap-2 text-[11px] bg-stone-50 p-2 rounded-lg border border-stone-100">
-              <div>
-                <span class="text-stone-400 block">Fondo Novios:</span>
-                <span id="kpi-breakdown-couple" class="font-semibold text-stone-700">$0</span>
-              </div>
-              <div class="text-right">
-                <span class="text-stone-400 block">Por Tarjetas:</span>
-                <span id="kpi-breakdown-cards" class="font-semibold text-emerald-700">$0</span>
-              </div>
+            <!-- Bloque cuando NO hay cobro de tarjeta ni meta -->
+            <div id="kpi-finance-inactive-block" class="hidden mt-3 py-2 space-y-2">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-600 bg-stone-100 px-2.5 py-1 rounded-md border border-stone-200">
+                <i data-lucide="gift" class="w-3.5 h-3.5 text-stone-500"></i> Evento 100% Cubierto
+              </span>
+              <p class="text-xs text-stone-500">
+                Este evento no requiere aportes de tarjeta ni metas de recaudación configuradas.
+              </p>
             </div>
-
-            <!-- Barra de avance hacia la meta -->
-            <div>
-              <div class="flex items-center justify-between text-[11px] mb-1">
-                <span id="kpi-progress-label" class="text-stone-500 font-medium">Progreso de la meta</span>
-                <span id="kpi-progress-percent" class="font-bold text-emerald-700">0%</span>
-              </div>
-              <div class="w-full bg-stone-100 rounded-full h-2 overflow-hidden border border-stone-200">
-                <div id="kpi-finance-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-              </div>
-            </div>
-
-            <!-- Saldo restante -->
-            <div class="flex items-center justify-between text-xs pt-0.5 border-t border-stone-100">
-              <span id="kpi-balance-label" class="text-stone-500">Saldo para la meta:</span>
-              <span id="kpi-remaining-balance" class="font-bold text-stone-800">$0</span>
-            </div>
-          </div>
-
-          <!-- Bloque cuando NO hay cobro de tarjeta ni meta -->
-          <div id="kpi-finance-inactive-block" class="hidden mt-3 py-2 space-y-2">
-            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-stone-600 bg-stone-100 px-2.5 py-1 rounded-md border border-stone-200">
-              <i data-lucide="gift" class="w-3.5 h-3.5 text-stone-500"></i> Evento 100% Cubierto
-            </span>
-            <p class="text-xs text-stone-500">
-              Este evento no requiere aportes de tarjeta ni metas de recaudación configuradas.
-            </p>
           </div>
         </article>
 
@@ -544,7 +565,7 @@
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
               <i data-lucide="search" class="w-4 h-4"></i>
             </div>
-            <input type="search" id="input-search-guest" placeholder="Buscar por nombre..." class="w-full pl-9 pr-8 py-1.5 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 placeholder:text-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
+            <input type="search" id="input-search-guest" placeholder="Buscar por nombre..." aria-label="Buscar invitado por nombre" class="w-full pl-9 pr-8 py-1.5 text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 placeholder:text-stone-400 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth">
             <button type="button" id="btn-clear-search" class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-stone-400 hover:text-stone-600" title="Limpiar búsqueda">
               <i data-lucide="x" class="w-3.5 h-3.5"></i>
             </button>
@@ -600,24 +621,24 @@
   </main>
 
   <!-- MODAL 1: NUEVA BODA (CONFIGURACIÓN INICIAL EN 1 PASO) -->
-  <div id="modal-new-wedding" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-new-wedding">
-    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-new-wedding"></div>
-    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md border border-stone-200">
-        
-        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
-          <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center">
-              <i data-lucide="plus-circle" class="w-4 h-4"></i>
-            </div>
-            <h3 id="title-modal-new-wedding" class="text-base font-semibold text-stone-900">Crear Nueva Boda</h3>
+  <div id="modal-new-wedding" class="hidden fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="title-modal-new-wedding">
+    <div class="fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-40 transition-opacity" id="backdrop-new-wedding"></div>
+    <div class="relative z-50 w-full max-w-md bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col">
+      
+      <div class="shrink-0 bg-stone-50 px-5 py-3.5 border-b border-stone-200 flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
           </div>
-          <button type="button" id="btn-close-new-wedding" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth" aria-label="Cerrar modal">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
+          <h3 id="title-modal-new-wedding" class="text-base font-semibold text-stone-900">Crear Nueva Boda</h3>
         </div>
+        <button type="button" id="btn-close-new-wedding" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth cursor-pointer" aria-label="Cerrar modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
 
-        <form id="form-new-wedding" class="p-6 space-y-4">
+      <form id="form-new-wedding" class="flex flex-col flex-1 min-h-0 overflow-hidden">
+        <div class="flex-1 overflow-y-auto p-5 space-y-3.5">
           <!-- Nombre del Evento -->
           <div>
             <label for="new-wedding-name" class="block text-xs font-medium text-stone-700 mb-1">
@@ -644,25 +665,20 @@
             </div>
           </div>
 
-          <!-- Toggle Cobro de Tarjeta y Precio -->
-          <div class="rounded-xl border border-stone-200 p-4 bg-stone-50/70 space-y-3">
-            <div class="flex items-center justify-between">
+          <!-- Toggle Cobro de Tarjeta y Precio (Switch con Gradiente) -->
+          <div class="rounded-xl border border-stone-200 p-3.5 bg-stone-50/70 space-y-3">
+            <div class="flex items-center justify-between gap-3">
               <div>
-                <label for="new-wedding-tarjeta-toggle" class="text-xs font-semibold text-stone-900 block cursor-pointer">
-                  ¿Se cobra tarjeta de invitación?
-                </label>
+                <span id="label-new-tarjeta" class="text-xs font-semibold text-stone-900 block cursor-pointer">
+                  ¿Cobrar tarjeta a los invitados?
+                </span>
                 <p class="text-[11px] text-stone-500">Habilita registro de aportes por invitado</p>
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="new-wedding-tarjeta-toggle" class="sr-only peer" checked>
-                <div class="w-10 h-5.5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4.5 after:w-4.5 after:transition-all peer-checked:bg-emerald-600"></div>
-              </label>
-            </div>
-
-            <!-- Indicador visual dinámico de modo -->
-            <div id="new-wedding-mode-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 w-full justify-center transition-smooth">
-              <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
-              <span>Modo: Cobro de Tarjeta Activado</span>
+              <input type="checkbox" id="new-wedding-tarjeta-toggle" class="sr-only" checked>
+              <button type="button" id="btn-switch-new-tarjeta" role="switch" aria-checked="true" aria-labelledby="label-new-tarjeta" class="relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full p-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-stone-400 focus:ring-offset-2">
+                <span class="sr-only">Cobrar tarjeta a los invitados</span>
+                <span id="knob-new-tarjeta" aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-md transition-all duration-200 ease-in-out translate-x-6"></span>
+              </button>
             </div>
 
             <div id="new-wedding-pricing-box" class="pt-2 border-t border-stone-200">
@@ -672,40 +688,43 @@
               <input type="number" id="new-wedding-price" min="0" step="500" value="45000" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
             </div>
           </div>
+        </div>
 
-          <div class="flex items-center justify-end space-x-2.5 pt-2">
-            <button type="button" id="btn-cancel-new-wedding" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50 transition-smooth">
-              Cancelar
-            </button>
-            <button type="submit" class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 transition-smooth shadow-xs">
-              Crear y Activar Boda
-            </button>
-          </div>
-        </form>
+        <div class="shrink-0 bg-stone-50 px-5 py-3 border-t border-stone-200 flex items-center justify-end space-x-2">
+          <button type="button" id="btn-cancel-new-wedding" class="px-3.5 py-1.5 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-100 active:scale-95 transition-all cursor-pointer">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-1.5 text-xs font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 active:scale-95 transition-all shadow-xs cursor-pointer">
+            Crear y Activar Boda
+          </button>
+        </div>
+      </form>
 
-      </div>
     </div>
   </div>
 
   <!-- MODAL 2: CONFIGURACIÓN DE LA BODA ACTIVA -->
-  <div id="modal-config-wedding" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-config-wedding">
-    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-config-wedding"></div>
-    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md border border-stone-200">
-        
-        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
-          <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center">
-              <i data-lucide="settings" class="w-4 h-4"></i>
-            </div>
-            <h3 id="title-modal-config-wedding" class="text-base font-semibold text-stone-900">Ajustes de la Boda Activa</h3>
+  <div id="modal-config-wedding" class="hidden fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="title-modal-config-wedding">
+    <div class="fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-40 transition-opacity" id="backdrop-config-wedding"></div>
+    <div class="relative z-50 w-full max-w-md bg-white rounded-2xl shadow-2xl border border-stone-200 overflow-hidden flex flex-col">
+      
+      <!-- Encabezado fijo -->
+      <div class="shrink-0 bg-stone-50 px-5 py-3.5 border-b border-stone-200 flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center">
+            <i data-lucide="settings" class="w-4 h-4"></i>
           </div>
-          <button type="button" id="btn-close-config-wedding" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth" aria-label="Cerrar modal">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
+          <h3 id="title-modal-config-wedding" class="text-base font-semibold text-stone-900">Ajustes de la Boda Activa</h3>
         </div>
+        <button type="button" id="btn-close-config-wedding" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth cursor-pointer" aria-label="Cerrar modal">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
 
-        <form id="form-config-wedding" class="p-6 space-y-4">
+      <!-- Formulario con división: cuerpo con scroll interno y pie fijo -->
+      <form id="form-config-wedding" class="flex flex-col flex-1 min-h-0 overflow-hidden">
+        <!-- Cuerpo de formulario compacto sin scroll vertical innecesario -->
+        <div class="flex-1 overflow-y-auto p-5 space-y-3.5">
           <div>
             <label for="cfg-wedding-name" class="block text-xs font-medium text-stone-700 mb-1">Nombre de la Boda</label>
             <input type="text" id="cfg-wedding-name" required class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
@@ -722,103 +741,120 @@
             </div>
           </div>
 
-          <div class="rounded-xl border border-stone-200 p-4 bg-stone-50/70 space-y-3">
-            <div class="flex items-center justify-between">
+          <!-- Switch con Gradiente: ¿Cobrar tarjeta a los invitados? -->
+          <div class="rounded-xl border border-stone-200 p-3.5 bg-stone-50/70 space-y-3">
+            <div class="flex items-center justify-between gap-3">
               <div>
-                <label for="cfg-tarjeta-toggle" class="text-xs font-semibold text-stone-900 block cursor-pointer">
-                  ¿Se cobra tarjeta de invitación?
-                </label>
+                <span id="label-cfg-tarjeta" class="text-xs font-semibold text-stone-900 block cursor-pointer">
+                  ¿Cobrar tarjeta a los invitados?
+                </span>
                 <p class="text-[11px] text-stone-500">Habilita cálculo de aportes y saldo de tarjetas</p>
               </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="cfg-tarjeta-toggle" class="sr-only peer">
-                <div class="w-10 h-5.5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4.5 after:w-4.5 after:transition-all peer-checked:bg-emerald-600"></div>
-              </label>
+              <input type="checkbox" id="cfg-tarjeta-toggle" class="sr-only">
+              <button type="button" id="btn-switch-cfg-tarjeta" role="switch" aria-checked="false" aria-labelledby="label-cfg-tarjeta" class="relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full p-0.5 bg-stone-300 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-stone-400 focus:ring-offset-2">
+                <span class="sr-only">Cobrar tarjeta a los invitados</span>
+                <span id="knob-cfg-tarjeta" aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-all duration-200 ease-in-out translate-x-0"></span>
+              </button>
             </div>
 
-            <!-- Indicador visual dinámico de modo -->
-            <div id="cfg-wedding-mode-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 w-full justify-center transition-smooth">
-              <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
-              <span>Modo: Cobro de Tarjeta Activado</span>
-            </div>
-
-            <div id="cfg-pricing-box" class="pt-2 border-t border-stone-200">
+            <div id="cfg-pricing-box" class="pt-2 border-t border-stone-200 hidden">
               <label for="cfg-card-price" class="block text-xs font-medium text-stone-700 mb-1">Precio sugerido de tarjeta por persona ($)</label>
               <input type="number" id="cfg-card-price" min="0" step="500" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
             </div>
           </div>
 
-          <!-- Acción Destructiva: Eliminar Lista de Boda -->
-          <div class="pt-2 border-t border-stone-100 flex items-center justify-between">
-            <button type="button" id="btn-delete-active-wedding" class="text-xs text-rose-600 hover:text-rose-700 hover:underline inline-flex items-center gap-1.5 font-medium">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              <span>Eliminar esta lista de boda</span>
-            </button>
+          <!-- Zona de Copia de Seguridad JSON discreta al pie del formulario -->
+          <div class="pt-2.5 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="database" class="w-3.5 h-3.5 text-stone-400"></i>
+              <span class="font-medium text-stone-600">Copia de Seguridad (.json)</span>
+            </span>
+            <div class="flex items-center gap-1.5">
+              <button type="button" id="btn-cfg-backup-json" class="inline-flex items-center gap-1 py-1 px-2.5 text-[11px] font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 border border-stone-200 rounded-md active:scale-95 transition-all cursor-pointer" title="Descargar backup JSON">
+                <i data-lucide="download" class="w-3 h-3 text-stone-500"></i>
+                <span>Descargar</span>
+              </button>
+              <button type="button" id="btn-cfg-restore-json" class="inline-flex items-center gap-1 py-1 px-2.5 text-[11px] font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 border border-stone-200 rounded-md active:scale-95 transition-all cursor-pointer" title="Restaurar backup JSON">
+                <i data-lucide="upload" class="w-3 h-3 text-stone-500"></i>
+                <span>Restaurar</span>
+              </button>
+            </div>
           </div>
 
-          <div class="flex items-center justify-end space-x-2.5 pt-2">
-            <button type="button" id="btn-cancel-config-wedding" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50 transition-smooth">
+        </div>
+
+        <!-- Pie fijo (Sticky footer en la base del modal) -->
+        <div class="shrink-0 bg-stone-50 px-5 py-3 border-t border-stone-200 flex items-center justify-between">
+          <button type="button" id="btn-delete-active-wedding" class="text-xs text-rose-600 hover:text-rose-700 hover:underline flex items-center gap-1 font-medium transition-smooth cursor-pointer">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <span>Eliminar esta lista</span>
+          </button>
+
+          <div class="flex items-center space-x-2">
+            <button type="button" id="btn-cancel-config-wedding" class="px-3.5 py-1.5 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-100 active:scale-95 transition-all cursor-pointer">
               Cancelar
             </button>
-            <button type="submit" class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 transition-smooth shadow-xs">
+            <button type="submit" class="px-4 py-1.5 text-xs font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 active:scale-95 transition-all shadow-xs cursor-pointer">
               Guardar Cambios
             </button>
           </div>
-        </form>
+        </div>
+      </form>
 
-      </div>
     </div>
   </div>
 
   <!-- MODAL 3: EDITAR MONTO APORTADO RÁPIDAMENTE -->
   <div id="modal-quick-amount" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-quick-amount">
-    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-quick-amount"></div>
-    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm border border-stone-200">
+    <div class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 transition-opacity" id="backdrop-quick-amount"></div>
+    <div class="relative z-50 flex min-h-full items-center justify-center p-4 text-center sm:p-0 pointer-events-none">
+      <div class="pointer-events-auto relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-sm border border-stone-200 max-h-[90vh] flex flex-col">
         
-        <div class="bg-stone-50 px-5 py-3.5 border-b border-stone-200 flex items-center justify-between">
+        <div class="bg-stone-50 px-5 py-3.5 border-b border-stone-200 flex items-center justify-between shrink-0">
           <div class="flex items-center space-x-2">
             <i data-lucide="coins" class="w-4 h-4 text-stone-700"></i>
             <h3 id="title-modal-quick-amount" class="text-sm font-semibold text-stone-900">Actualizar Monto Aportado</h3>
           </div>
-          <button type="button" id="btn-close-quick-amount" class="rounded-lg p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth">
+          <button type="button" id="btn-close-quick-amount" class="rounded-lg p-1 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth cursor-pointer">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <form id="form-quick-amount" class="p-5 space-y-4">
+        <form id="form-quick-amount" class="flex flex-col flex-1 overflow-hidden min-h-0">
           <input type="hidden" id="quick-guest-id">
 
-          <div>
-            <p class="text-xs text-stone-500 mb-1">Invitado:</p>
-            <p id="quick-guest-name" class="text-sm font-bold text-stone-900"></p>
-          </div>
+          <div class="flex-1 overflow-y-auto p-5 space-y-4">
+            <div>
+              <p class="text-xs text-stone-500 mb-1">Invitado:</p>
+              <p id="quick-guest-name" class="text-sm font-bold text-stone-900"></p>
+            </div>
 
-          <div>
-            <label for="input-quick-amount-val" class="block text-xs font-medium text-stone-700 mb-1">Monto Abonado ($)</label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-xs text-stone-400 pointer-events-none">$</span>
-              <input type="number" id="input-quick-amount-val" min="0" step="500" required class="w-full pl-7 pr-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 font-semibold focus:ring-2 focus:ring-stone-400 focus:outline-none">
+            <div>
+              <label for="input-quick-amount-val" class="block text-xs font-medium text-stone-700 mb-1">Monto Abonado ($)</label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-xs text-stone-400 pointer-events-none">$</span>
+                <input type="number" id="input-quick-amount-val" min="0" step="500" required class="w-full pl-7 pr-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 font-semibold focus:ring-2 focus:ring-stone-400 focus:outline-none">
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 pt-1">
+              <button type="button" id="btn-quick-full" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth cursor-pointer">
+                Tarifa Total
+              </button>
+              <button type="button" id="btn-quick-half" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth cursor-pointer">
+                50% Tarifa
+              </button>
+              <button type="button" id="btn-quick-zero" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth cursor-pointer">
+                $0
+              </button>
             </div>
           </div>
 
-          <div class="flex items-center gap-2 pt-1">
-            <button type="button" id="btn-quick-full" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth">
-              Tarifa Total
-            </button>
-            <button type="button" id="btn-quick-half" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth">
-              50% Tarifa
-            </button>
-            <button type="button" id="btn-quick-zero" class="flex-1 py-1.5 text-xs font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-md transition-smooth">
-              $0
-            </button>
-          </div>
-
-          <div class="flex items-center justify-end space-x-2 pt-2">
-            <button type="button" id="btn-cancel-quick-amount" class="px-3 py-1.5 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50">
+          <div class="bg-stone-50 px-5 py-3 border-t border-stone-200 flex items-center justify-end space-x-2 shrink-0">
+            <button type="button" id="btn-cancel-quick-amount" class="px-3 py-1.5 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-100 active:scale-95 transition-all cursor-pointer">
               Cancelar
             </button>
-            <button type="submit" class="px-4 py-1.5 text-xs font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 shadow-xs">
+            <button type="submit" class="px-4 py-1.5 text-xs font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 active:scale-95 transition-all shadow-xs cursor-pointer">
               Guardar Monto
             </button>
           </div>
@@ -830,79 +866,81 @@
 
   <!-- MODAL 4: EDITAR INVITADO COMPLETO -->
   <div id="modal-edit-guest" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-edit-guest">
-    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-edit-guest"></div>
-    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md border border-stone-200">
+    <div class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 transition-opacity" id="backdrop-edit-guest"></div>
+    <div class="relative z-50 flex min-h-full items-center justify-center p-4 text-center sm:p-0 pointer-events-none">
+      <div class="pointer-events-auto relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md border border-stone-200 max-h-[90vh] flex flex-col">
         
-        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between shrink-0">
           <h3 id="title-modal-edit-guest" class="text-base font-semibold text-stone-900">Editar Invitado</h3>
-          <button type="button" id="btn-close-edit-guest" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth">
+          <button type="button" id="btn-close-edit-guest" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth cursor-pointer" aria-label="Cerrar modal">
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
 
-        <form id="form-edit-guest" class="p-6 space-y-4">
+        <form id="form-edit-guest" class="flex flex-col flex-1 overflow-hidden min-h-0">
           <input type="hidden" id="edit-guest-id">
 
-          <div>
-            <label for="edit-name" class="block text-xs font-medium text-stone-700 mb-1">Nombre y Apellido</label>
-            <input type="text" id="edit-name" required class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
+          <div class="flex-1 overflow-y-auto p-6 space-y-4">
             <div>
-              <label for="edit-tipo" class="block text-xs font-medium text-stone-700 mb-1">Categoría</label>
-              <select id="edit-tipo" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
-                <option value="adulto">Adulto</option>
-                <option value="menor">Menor</option>
+              <label for="edit-name" class="block text-xs font-medium text-stone-700 mb-1">Nombre y Apellido</label>
+              <input type="text" id="edit-name" required class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="edit-tipo" class="block text-xs font-medium text-stone-700 mb-1">Categoría</label>
+                <select id="edit-tipo" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+                  <option value="adulto">Adulto</option>
+                  <option value="menor">Menor</option>
+                </select>
+              </div>
+              <div>
+                <label for="edit-asistencia" class="block text-xs font-medium text-stone-700 mb-1">Asistencia</label>
+                <select id="edit-asistencia" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+                  <option value="confirmado">Confirmado</option>
+                  <option value="en_duda">En Duda</option>
+                  <option value="cancelado">Cancelado</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="edit-restriccion" class="block text-xs font-medium text-stone-700 mb-1">Menú / Restricción</label>
+              <select id="edit-restriccion" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+                <option value="Ninguna">Ninguna (Estándar)</option>
+                <option value="Celíaco">Celíaco / Sin TACC</option>
+                <option value="Vegano">Vegano</option>
+                <option value="Vegetariano">Vegetariano</option>
+                <option value="Hipertenso">Hipertenso / Sin Sal</option>
+                <option value="Otro">Otro</option>
               </select>
             </div>
-            <div>
-              <label for="edit-asistencia" class="block text-xs font-medium text-stone-700 mb-1">Asistencia</label>
-              <select id="edit-asistencia" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
-                <option value="confirmado">Confirmado</option>
-                <option value="en_duda">En Duda</option>
-                <option value="cancelado">Cancelado</option>
+
+            <div id="edit-diet-notes-box" class="hidden">
+              <label for="edit-diet-notes" class="block text-xs font-medium text-stone-700 mb-1">Detalle de Dieta</label>
+              <input type="text" id="edit-diet-notes" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+            </div>
+
+            <!-- ¿Abona tarjeta? (Solo si la boda cobra tarjeta) -->
+            <div id="edit-paga-tarjeta-box">
+              <label for="edit-paga-tarjeta" class="block text-xs font-medium text-stone-700 mb-1">¿Abona tarjeta este invitado?</label>
+              <select id="edit-paga-tarjeta" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
+                <option value="si">Sí, abona tarjeta</option>
+                <option value="no">Exento / No abona</option>
               </select>
+            </div>
+
+            <div id="edit-amount-box">
+              <label for="edit-monto" class="block text-xs font-medium text-stone-700 mb-1">Monto Aportado ($)</label>
+              <input type="number" id="edit-monto" min="0" step="500" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
             </div>
           </div>
 
-          <div>
-            <label for="edit-restriccion" class="block text-xs font-medium text-stone-700 mb-1">Menú / Restricción</label>
-            <select id="edit-restriccion" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
-              <option value="Ninguna">Ninguna (Estándar)</option>
-              <option value="Celíaco">Celíaco / Sin TACC</option>
-              <option value="Vegano">Vegano</option>
-              <option value="Vegetariano">Vegetariano</option>
-              <option value="Hipertenso">Hipertenso / Sin Sal</option>
-              <option value="Otro">Otro</option>
-            </select>
-          </div>
-
-          <div id="edit-diet-notes-box" class="hidden">
-            <label for="edit-diet-notes" class="block text-xs font-medium text-stone-700 mb-1">Detalle de Dieta</label>
-            <input type="text" id="edit-diet-notes" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
-          </div>
-
-          <!-- ¿Abona tarjeta? (Solo si la boda cobra tarjeta) -->
-          <div id="edit-paga-tarjeta-box">
-            <label for="edit-paga-tarjeta" class="block text-xs font-medium text-stone-700 mb-1">¿Abona tarjeta este invitado?</label>
-            <select id="edit-paga-tarjeta" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
-              <option value="si">Sí, abona tarjeta</option>
-              <option value="no">Exento / No abona</option>
-            </select>
-          </div>
-
-          <div id="edit-amount-box">
-            <label for="edit-monto" class="block text-xs font-medium text-stone-700 mb-1">Monto Aportado ($)</label>
-            <input type="number" id="edit-monto" min="0" step="500" class="w-full px-3 py-2 text-sm border border-stone-300 rounded-lg text-stone-900 focus:ring-2 focus:ring-stone-400 focus:outline-none">
-          </div>
-
-          <div class="flex items-center justify-end space-x-2.5 pt-2">
-            <button type="button" id="btn-cancel-edit-guest" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50">
+          <div class="bg-stone-50 px-6 py-3.5 border-t border-stone-200 flex items-center justify-end space-x-2.5 shrink-0">
+            <button type="button" id="btn-cancel-edit-guest" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-100 active:scale-95 transition-all cursor-pointer">
               Cancelar
             </button>
-            <button type="submit" class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 shadow-xs">
+            <button type="submit" class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 rounded-lg hover:bg-stone-800 active:scale-95 transition-all shadow-xs cursor-pointer">
               Actualizar Invitado
             </button>
           </div>
@@ -913,23 +951,47 @@
   </div>
 
   <!-- MODAL 5: CONFIRMACIÓN DE ELIMINAR INVITADO -->
-  <div id="modal-delete-confirm" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-delete-confirm"></div>
-    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm border border-stone-200 p-6">
-        <div class="w-10 h-10 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3">
+  <div id="modal-delete-confirm" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-delete-confirm">
+    <div class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 transition-opacity" id="backdrop-delete-confirm"></div>
+    <div class="relative z-50 flex min-h-full items-center justify-center p-4 text-center sm:p-0 pointer-events-none">
+      <div class="pointer-events-auto relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-sm border border-stone-200 p-6 max-h-[90vh] flex flex-col">
+        <div class="w-10 h-10 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3 shrink-0">
           <i data-lucide="alert-triangle" class="w-5 h-5"></i>
         </div>
-        <h4 class="text-base font-semibold text-stone-900 text-center">¿Eliminar invitado?</h4>
-        <p class="text-xs text-stone-500 text-center mt-2">
+        <h4 id="title-modal-delete-confirm" class="text-base font-semibold text-stone-900 text-center shrink-0">¿Eliminar invitado?</h4>
+        <p class="text-xs text-stone-500 text-center mt-2 flex-1 overflow-y-auto">
           ¿Estás seguro de que deseas quitar a <span id="delete-confirm-guest-name" class="font-bold text-stone-800"></span>? Esta acción no se puede deshacer.
         </p>
-        <div class="flex items-center justify-center gap-2.5 mt-5">
-          <button type="button" id="btn-cancel-delete" class="w-full px-3 py-2 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50">
+        <div class="flex items-center justify-center gap-2.5 mt-5 shrink-0">
+          <button type="button" id="btn-cancel-delete" class="w-full px-3 py-2 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-100 active:scale-95 transition-all cursor-pointer">
             Cancelar
           </button>
-          <button type="button" id="btn-confirm-delete" class="w-full px-3 py-2 text-xs font-medium text-white bg-rose-600 hover:bg-rose-700 rounded-lg shadow-xs">
+          <button type="button" id="btn-confirm-delete" class="w-full px-3 py-2 text-xs font-medium text-white bg-rose-600 hover:bg-rose-700 active:scale-95 transition-all rounded-lg shadow-xs cursor-pointer">
             Sí, eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMACIÓN DE ELIMINAR BODA -->
+  <div id="modal-delete-wedding-confirm" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-delete-wedding">
+    <div class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 transition-opacity" id="backdrop-delete-wedding-confirm"></div>
+    <div class="relative z-50 flex min-h-full items-center justify-center p-4 text-center sm:p-0 pointer-events-none">
+      <div class="pointer-events-auto relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-sm border border-stone-200 p-6 max-h-[90vh] flex flex-col">
+        <div class="w-10 h-10 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3 shrink-0">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        </div>
+        <h4 id="title-modal-delete-wedding" class="text-base font-semibold text-stone-900 text-center shrink-0">¿Eliminar lista de boda?</h4>
+        <p class="text-xs text-stone-500 text-center mt-2 flex-1 overflow-y-auto">
+          ¿Estás seguro de que deseas eliminar definitivamente la lista <span id="delete-confirm-wedding-name" class="font-bold text-stone-800"></span> y todos sus invitados asociados? Esta acción no se puede deshacer.
+        </p>
+        <div class="flex items-center justify-center gap-2.5 mt-5 shrink-0">
+          <button type="button" id="btn-cancel-delete-wedding" class="w-full px-3 py-2 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-100 active:scale-95 transition-all cursor-pointer">
+            Cancelar
+          </button>
+          <button type="button" id="btn-confirm-delete-wedding" class="w-full px-3 py-2 text-xs font-medium text-white bg-rose-600 hover:bg-rose-700 active:scale-95 transition-all rounded-lg shadow-xs transition-smooth cursor-pointer">
+            Sí, eliminar definitivamente
           </button>
         </div>
       </div>
@@ -938,14 +1000,14 @@
 
   <!-- MODAL 6: IMPORTACIÓN UNIVERSAL DESDE GOOGLE SHEETS / CSV -->
   <div id="modal-import-sheets" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="title-modal-import">
-    <div class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity" id="backdrop-import-sheets"></div>
-    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl border border-stone-200">
+    <div class="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 transition-opacity" id="backdrop-import-sheets"></div>
+    <div class="relative z-50 flex min-h-full items-center justify-center p-4 text-center sm:p-0 pointer-events-none">
+      <div class="pointer-events-auto relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl border border-stone-200 max-h-[90vh] flex flex-col">
         
         <!-- Encabezado del Modal -->
-        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+        <div class="bg-stone-50 px-6 py-4 border-b border-stone-200 flex items-center justify-between shrink-0">
           <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-stone-900 text-white flex items-center justify-center shrink-0">
               <i data-lucide="file-up" class="w-4 h-4"></i>
             </div>
             <div>
@@ -953,12 +1015,12 @@
               <p class="text-xs text-stone-500">Carga masiva de invitados mediante archivo CSV o pegado directo de celdas</p>
             </div>
           </div>
-          <button type="button" id="btn-close-import" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth" aria-label="Cerrar modal">
+          <button type="button" id="btn-close-import" class="rounded-lg p-1.5 text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-smooth cursor-pointer" aria-label="Cerrar modal">
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
 
-        <div class="p-6 space-y-5">
+        <div class="flex-1 overflow-y-auto p-6 space-y-5">
           <!-- Guía de columnas reconocidas & Descarga de Plantilla -->
           <div class="rounded-xl border border-stone-200 bg-stone-50/70 p-3.5 text-xs text-stone-600 space-y-2">
             <div class="flex items-center justify-between flex-wrap gap-2">
@@ -966,7 +1028,7 @@
                 <i data-lucide="info" class="w-4 h-4 text-stone-500"></i>
                 <span>Columnas reconocidas automáticamente</span>
               </div>
-              <button type="button" id="btn-download-template" class="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 hover:text-emerald-800 hover:underline bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 transition-smooth" title="Descargar archivo modelo de ejemplo">
+              <button type="button" id="btn-download-template" class="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 hover:text-emerald-800 hover:underline bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 transition-smooth cursor-pointer" title="Descargar archivo modelo de ejemplo">
                 <i data-lucide="download" class="w-3.5 h-3.5"></i>
                 <span>Descargar plantilla modelo (.csv)</span>
               </button>
@@ -986,11 +1048,11 @@
 
           <!-- Selector de Método: Pestañas -->
           <div class="flex border-b border-stone-200" role="tablist" aria-label="Métodos de importación">
-            <button type="button" id="tab-import-paste" class="py-2.5 px-4 text-xs font-semibold border-b-2 border-stone-900 text-stone-900 transition-smooth inline-flex items-center gap-1.5" role="tab" aria-selected="true">
+            <button type="button" id="tab-import-paste" class="py-2.5 px-4 text-xs font-semibold border-b-2 border-stone-900 text-stone-900 transition-smooth inline-flex items-center gap-1.5 cursor-pointer" role="tab" aria-selected="true">
               <i data-lucide="clipboard" class="w-3.5 h-3.5"></i>
               <span>Copiar y Pegar Celdas</span>
             </button>
-            <button type="button" id="tab-import-file" class="py-2.5 px-4 text-xs font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-700 transition-smooth inline-flex items-center gap-1.5" role="tab" aria-selected="false">
+            <button type="button" id="tab-import-file" class="py-2.5 px-4 text-xs font-medium border-b-2 border-transparent text-stone-500 hover:text-stone-700 transition-smooth inline-flex items-center gap-1.5 cursor-pointer" role="tab" aria-selected="false">
               <i data-lucide="file-up" class="w-3.5 h-3.5"></i>
               <span>Subir archivo .CSV</span>
             </button>
@@ -1004,7 +1066,7 @@
             <textarea id="textarea-import-paste" rows="5" placeholder="Nombre y Apellido	Categoría	Asistencia	Menú / Dieta	Abona Tarjeta	Monto Aportado&#10;Camila Morales	Adulto	Confirmado	Ninguna	Sí	45000&#10;Lucas Romero	Adulto	Confirmado	Celíaco	Sí	45000&#10;Sofía Gómez	Menor	En Duda	Ninguna	No	0" class="w-full px-3 py-2 text-xs font-mono bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-400 focus:outline-none transition-smooth placeholder:text-stone-400"></textarea>
             <div class="flex items-center justify-between text-[11px] text-stone-500">
               <span>Selecciona tus filas en Google Sheets, pulsa Ctrl+C y pégalas aquí con Ctrl+V.</span>
-              <button type="button" id="btn-parse-paste" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded-lg transition-smooth">
+              <button type="button" id="btn-parse-paste" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded-lg transition-smooth cursor-pointer">
                 <i data-lucide="play" class="w-3 h-3 text-stone-700"></i>
                 <span>Analizar Datos</span>
               </button>
@@ -1014,7 +1076,7 @@
           <!-- Panel 2: Subir Archivo CSV -->
           <div id="panel-import-file" class="hidden space-y-3">
             <div id="drop-zone-csv" class="border-2 border-dashed border-stone-300 hover:border-stone-400 rounded-xl p-6 text-center cursor-pointer bg-stone-50/50 hover:bg-stone-50 transition-smooth">
-              <input type="file" id="input-file-csv" accept=".csv, .tsv, .txt, text/csv, text/plain" class="hidden">
+              <input type="file" id="input-file-csv" accept=".csv, .tsv, .txt, text/csv, text/plain" class="hidden" aria-label="Seleccionar archivo CSV o planilla">
               <div class="w-10 h-10 rounded-full bg-stone-100 text-stone-600 flex items-center justify-center mx-auto mb-2">
                 <i data-lucide="upload-cloud" class="w-5 h-5 text-stone-500"></i>
               </div>
@@ -1054,25 +1116,28 @@
               </table>
             </div>
           </div>
-
-          <!-- Botones de Acción -->
-          <div class="flex items-center justify-end space-x-2.5 pt-2 border-t border-stone-100">
-            <button type="button" id="btn-cancel-import" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-50 transition-smooth">
-              Cancelar
-            </button>
-            <button type="button" id="btn-confirm-import" disabled class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 hover:bg-stone-800 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-smooth shadow-xs inline-flex items-center gap-1.5">
-              <i data-lucide="check" class="w-4 h-4"></i>
-              <span>Confirmar e Incorporar a la Lista</span>
-            </button>
-          </div>
-
         </div>
+
+        <!-- Botones de Acción Fijos -->
+        <div class="bg-stone-50 px-6 py-3.5 border-t border-stone-200 flex items-center justify-end space-x-2.5 shrink-0">
+          <button type="button" id="btn-cancel-import" class="px-4 py-2 text-xs sm:text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-lg hover:bg-stone-100 active:scale-95 transition-all cursor-pointer">
+            Cancelar
+          </button>
+          <button type="button" id="btn-confirm-import" disabled class="px-4 py-2 text-xs sm:text-sm font-medium text-white bg-stone-900 hover:bg-stone-800 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-all shadow-xs inline-flex items-center gap-1.5 cursor-pointer">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Confirmar e Incorporar a la Lista</span>
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
 
   <!-- TOASTS DE NOTIFICACIÓN -->
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- Input oculto para restauración de archivos JSON -->
+  <input type="file" id="input-restore-json" accept=".json, application/json" class="hidden" aria-label="Restaurar base de datos desde archivo JSON">
 
   <!-- JAVASCRIPT MODULAR Y AUTOCONTENIDO -->
   <script>
@@ -1114,8 +1179,22 @@
       function saveDatabase(dataToSave = db) {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+          return true;
         } catch (e) {
           console.error('Error al persistir base de datos:', e);
+          const isQuota = e && (
+            e.name === 'QuotaExceededError' ||
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
+            e.code === 22 ||
+            e.code === 1014 ||
+            (typeof e.message === 'string' && e.message.toLowerCase().includes('quota'))
+          );
+          if (isQuota) {
+            showToast('Límite de almacenamiento excedido en el navegador (QuotaExceededError). Descarga un respaldo (.json) para no perder datos.', 'error');
+          } else {
+            showToast('Error al persistir los cambios en el almacenamiento local.', 'error');
+          }
+          return false;
         }
       }
 
@@ -1171,10 +1250,10 @@
       function updateWeddingModeBadge(badgeEl, isActive) {
         if (!badgeEl) return;
         if (isActive) {
-          badgeEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 w-full justify-center transition-smooth';
+          badgeEl.className = 'flex w-full items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 transition-smooth';
           badgeEl.innerHTML = '<i data-lucide="credit-card" class="w-3.5 h-3.5"></i><span>Modo: Cobro de Tarjeta Activado</span>';
         } else {
-          badgeEl.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-stone-600 border border-stone-200 w-full justify-center transition-smooth';
+          badgeEl.className = 'flex w-full items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-stone-600 border border-stone-200 transition-smooth';
           badgeEl.innerHTML = '<i data-lucide="gift" class="w-3.5 h-3.5 text-stone-500"></i><span>Modo: Invitación Libre (Sin Cobro)</span>';
         }
         lucide.createIcons({ root: badgeEl });
@@ -1199,6 +1278,7 @@
           headerActions.classList.add('hidden');
           headerBadge.textContent = 'Sin Bodas';
           document.title = 'Wedding Registry & Finance Hub';
+          lucide.createIcons({ root: zeroStateView });
           lucide.createIcons();
           return;
         }
@@ -1256,6 +1336,7 @@
         renderGuestsGrid(wedding);
         renderPrintHeader(wedding);
 
+        lucide.createIcons({ root: dashboardView });
         lucide.createIcons();
       }
 
@@ -1647,13 +1728,56 @@
       // 4. MODALES Y EVENT LISTENERS
       function setupModals() {
         const modalNew = document.getElementById('modal-new-wedding');
+        // Helper para gestionar switches estilo iOS / Tailwind
+        function updateToggleSwitch(switchBtn, knobEl, checkboxEl, pricingBoxEl, active) {
+          if (checkboxEl) checkboxEl.checked = active;
+          if (switchBtn) {
+            switchBtn.setAttribute('aria-checked', active ? 'true' : 'false');
+            if (active) {
+              switchBtn.classList.remove('bg-stone-300');
+              switchBtn.classList.add('bg-gradient-to-r', 'from-emerald-400', 'to-teal-500');
+            } else {
+              switchBtn.classList.remove('bg-gradient-to-r', 'from-emerald-400', 'to-teal-500');
+              switchBtn.classList.add('bg-stone-300');
+            }
+          }
+          if (knobEl) {
+            if (active) {
+              knobEl.classList.remove('translate-x-0', 'shadow-sm');
+              knobEl.classList.add('translate-x-6', 'shadow-md');
+            } else {
+              knobEl.classList.remove('translate-x-6', 'shadow-md');
+              knobEl.classList.add('translate-x-0', 'shadow-sm');
+            }
+          }
+          if (pricingBoxEl) {
+            if (active) {
+              pricingBoxEl.classList.remove('hidden');
+            } else {
+              pricingBoxEl.classList.add('hidden');
+            }
+          }
+        }
+
+        const switchNewBtn = document.getElementById('btn-switch-new-tarjeta');
+        const knobNewEl = document.getElementById('knob-new-tarjeta');
+        const checkNewEl = document.getElementById('new-wedding-tarjeta-toggle');
+        const pBoxNew = document.getElementById('new-wedding-pricing-box');
+
+        const toggleNewSwitch = () => {
+          const next = !checkNewEl.checked;
+          updateToggleSwitch(switchNewBtn, knobNewEl, checkNewEl, pBoxNew, next);
+        };
+        if (switchNewBtn) switchNewBtn.addEventListener('click', toggleNewSwitch);
+        const labelNew = document.getElementById('label-new-tarjeta');
+        if (labelNew) labelNew.addEventListener('click', toggleNewSwitch);
+
         const openNewWeddingModal = () => {
           document.getElementById('form-new-wedding').reset();
-          document.getElementById('new-wedding-tarjeta-toggle').checked = true;
-          document.getElementById('new-wedding-pricing-box').classList.remove('hidden');
-          updateWeddingModeBadge(document.getElementById('new-wedding-mode-badge'), true);
+          updateToggleSwitch(switchNewBtn, knobNewEl, checkNewEl, pBoxNew, true);
           modalNew.classList.remove('hidden');
           document.getElementById('new-wedding-name').focus();
+          lucide.createIcons({ root: modalNew });
         };
 
         document.getElementById('btn-open-new-wedding').addEventListener('click', openNewWeddingModal);
@@ -1663,13 +1787,6 @@
         document.getElementById('btn-close-new-wedding').addEventListener('click', closeNewWedding);
         document.getElementById('btn-cancel-new-wedding').addEventListener('click', closeNewWedding);
         document.getElementById('backdrop-new-wedding').addEventListener('click', closeNewWedding);
-
-        document.getElementById('new-wedding-tarjeta-toggle').addEventListener('change', (e) => {
-          const pBox = document.getElementById('new-wedding-pricing-box');
-          if (e.target.checked) pBox.classList.remove('hidden');
-          else pBox.classList.add('hidden');
-          updateWeddingModeBadge(document.getElementById('new-wedding-mode-badge'), e.target.checked);
-        });
 
         // Submit Nueva Boda
         document.getElementById('form-new-wedding').addEventListener('submit', (e) => {
@@ -1703,6 +1820,19 @@
 
         // Modal Configuración Boda Activa
         const modalCfg = document.getElementById('modal-config-wedding');
+        const switchCfgBtn = document.getElementById('btn-switch-cfg-tarjeta');
+        const knobCfgEl = document.getElementById('knob-cfg-tarjeta');
+        const checkCfgEl = document.getElementById('cfg-tarjeta-toggle');
+        const pBoxCfg = document.getElementById('cfg-pricing-box');
+
+        const toggleCfgSwitch = () => {
+          const next = !checkCfgEl.checked;
+          updateToggleSwitch(switchCfgBtn, knobCfgEl, checkCfgEl, pBoxCfg, next);
+        };
+        if (switchCfgBtn) switchCfgBtn.addEventListener('click', toggleCfgSwitch);
+        const labelCfg = document.getElementById('label-cfg-tarjeta');
+        if (labelCfg) labelCfg.addEventListener('click', toggleCfgSwitch);
+
         document.getElementById('btn-open-wedding-config').addEventListener('click', () => {
           const wedding = getActiveWedding();
           if (!wedding) return;
@@ -1710,28 +1840,18 @@
           document.getElementById('cfg-wedding-name').value = wedding.name;
           document.getElementById('cfg-wedding-meta').value = wedding.metaRecaudar || '';
           document.getElementById('cfg-wedding-aporte-novios').value = wedding.aporteNovios || '';
-          document.getElementById('cfg-tarjeta-toggle').checked = wedding.tarjetaActiva;
           document.getElementById('cfg-card-price').value = wedding.precioTarjeta || 0;
 
-          const pBox = document.getElementById('cfg-pricing-box');
-          if (wedding.tarjetaActiva) pBox.classList.remove('hidden');
-          else pBox.classList.add('hidden');
-          updateWeddingModeBadge(document.getElementById('cfg-wedding-mode-badge'), wedding.tarjetaActiva);
+          updateToggleSwitch(switchCfgBtn, knobCfgEl, checkCfgEl, pBoxCfg, !!wedding.tarjetaActiva);
 
           modalCfg.classList.remove('hidden');
+          lucide.createIcons({ root: modalCfg });
         });
 
         const closeConfigWedding = () => modalCfg.classList.add('hidden');
         document.getElementById('btn-close-config-wedding').addEventListener('click', closeConfigWedding);
         document.getElementById('btn-cancel-config-wedding').addEventListener('click', closeConfigWedding);
         document.getElementById('backdrop-config-wedding').addEventListener('click', closeConfigWedding);
-
-        document.getElementById('cfg-tarjeta-toggle').addEventListener('change', (e) => {
-          const pBox = document.getElementById('cfg-pricing-box');
-          if (e.target.checked) pBox.classList.remove('hidden');
-          else pBox.classList.add('hidden');
-          updateWeddingModeBadge(document.getElementById('cfg-wedding-mode-badge'), e.target.checked);
-        });
 
         document.getElementById('form-config-wedding').addEventListener('submit', (e) => {
           e.preventDefault();
@@ -1750,22 +1870,49 @@
           showToast('Configuración de la boda actualizada.');
         });
 
-        // Eliminar boda activa (si no quedan bodas, regresa automáticamente a Zero State)
-        document.getElementById('btn-delete-active-wedding').addEventListener('click', () => {
+        // Eliminar boda activa (modal DOM accesible sin confirm nativo)
+        document.getElementById('btn-delete-active-wedding').addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
           const wedding = getActiveWedding();
           if (!wedding) return;
 
-          if (confirm(`¿Eliminar definitivamente la lista "${wedding.name}" y todos sus invitados?`)) {
-            const oldId = db.activeWeddingId;
+          closeConfigWedding();
+          document.getElementById('delete-confirm-wedding-name').textContent = `"${wedding.name}"`;
+          const modalDelWedding = document.getElementById('modal-delete-wedding-confirm');
+          modalDelWedding.classList.remove('hidden');
+          lucide.createIcons({ root: modalDelWedding });
+        });
+
+        const closeDeleteWeddingModal = () => {
+          document.getElementById('modal-delete-wedding-confirm').classList.add('hidden');
+        };
+        document.getElementById('btn-cancel-delete-wedding').addEventListener('click', closeDeleteWeddingModal);
+        document.getElementById('backdrop-delete-wedding-confirm').addEventListener('click', closeDeleteWeddingModal);
+
+        // Confirmar eliminación definitiva de la boda
+        document.getElementById('btn-confirm-delete-wedding').addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const oldId = db.activeWeddingId;
+          if (oldId && db.weddings[oldId]) {
+            const weddingName = db.weddings[oldId].name || 'Lista de boda';
             delete db.weddings[oldId];
 
             const remainingKeys = Object.keys(db.weddings);
-            db.activeWeddingId = remainingKeys.length > 0 ? remainingKeys[0] : null;
+            if (remainingKeys.length > 0) {
+              db.activeWeddingId = remainingKeys[0];
+            } else {
+              db.activeWeddingId = null;
+              db.weddings = {};
+            }
 
             saveDatabase();
-            closeConfigWedding();
+            closeDeleteWeddingModal();
             renderApp();
-            showToast('Lista de boda eliminada.');
+            showToast(`La lista "${weddingName}" ha sido eliminada definitivamente.`);
+          } else {
+            closeDeleteWeddingModal();
           }
         });
 
@@ -2215,6 +2362,96 @@
             renderPrintHeader(wedding);
             window.print();
           }
+        });
+      }
+
+      // 8B. MÓDULO DE RESPALDO Y RESTAURACIÓN (.JSON)
+      function setupBackupAndRestore() {
+        const inputRestore = document.getElementById('input-restore-json');
+
+        function downloadBackup() {
+          const exportPayload = {
+            app: 'Wedding Registry & Finance Hub',
+            version: 'wedding_hub_master_v3',
+            exportedAt: new Date().toISOString(),
+            activeWeddingId: db.activeWeddingId,
+            weddings: db.weddings || {}
+          };
+          const jsonContent = JSON.stringify(exportPayload, null, 2);
+          const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          const dateStr = new Date().toISOString().slice(0, 10);
+          link.setAttribute('href', url);
+          link.setAttribute('download', `respaldo_completo_bodas_${dateStr}.json`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          showToast('Respaldo completo descargado exitosamente (.json).');
+        }
+
+        function triggerRestore() {
+          if (inputRestore) {
+            inputRestore.value = '';
+            inputRestore.click();
+          }
+        }
+
+        function handleRestoreFile(file) {
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              const parsed = JSON.parse(e.target.result);
+              let restoredWeddings = null;
+              let restoredActiveId = null;
+
+              if (parsed && typeof parsed.weddings === 'object') {
+                restoredWeddings = parsed.weddings;
+                restoredActiveId = parsed.activeWeddingId || Object.keys(restoredWeddings)[0] || null;
+              } else if (parsed && parsed.data && typeof parsed.data.weddings === 'object') {
+                restoredWeddings = parsed.data.weddings;
+                restoredActiveId = parsed.data.activeWeddingId || Object.keys(restoredWeddings)[0] || null;
+              }
+
+              if (restoredWeddings && typeof restoredWeddings === 'object') {
+                db.weddings = restoredWeddings;
+                db.activeWeddingId = restoredActiveId;
+                saveDatabase(db);
+                renderApp();
+                const count = Object.keys(db.weddings).length;
+                showToast(`¡Respaldo restaurado con éxito! (${count} ${count === 1 ? 'boda' : 'bodas'}).`);
+              } else {
+                showToast('El archivo JSON no posee una estructura válida de Wedding Hub.', 'error');
+              }
+            } catch (err) {
+              console.error('Error parseando JSON de respaldo:', err);
+              showToast('El archivo seleccionado no es un JSON válido.', 'error');
+            }
+          };
+          reader.onerror = () => {
+            showToast('Error al leer el archivo de respaldo seleccionado.', 'error');
+          };
+          reader.readAsText(file, 'UTF-8');
+        }
+
+        if (inputRestore) {
+          inputRestore.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+              handleRestoreFile(e.target.files[0]);
+            }
+          });
+        }
+
+        ['btn-cfg-backup-json'].forEach(id => {
+          const btn = document.getElementById(id);
+          if (btn) btn.addEventListener('click', downloadBackup);
+        });
+
+        ['btn-cfg-restore-json', 'btn-zero-restore-backup'].forEach(id => {
+          const btn = document.getElementById(id);
+          if (btn) btn.addEventListener('click', triggerRestore);
         });
       }
 
@@ -2673,6 +2910,7 @@
         setupSearchAndFilters();
         setupGridActions();
         setupExportAndPrint();
+        setupBackupAndRestore();
         setupImportModule();
 
         window.addEventListener('keydown', (e) => {
