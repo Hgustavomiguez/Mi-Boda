@@ -82,6 +82,8 @@
       header,
       #quick-add-section,
       #toolbar-section,
+      .order-column,
+      .order-control-mobile,
       .actions-column,
       .interactive-control,
       #modal-new-wedding,
@@ -578,7 +580,8 @@
           <table class="w-full text-left border-collapse text-sm">
             <thead>
               <tr class="bg-stone-50/80 border-b border-stone-200 text-xs font-semibold uppercase tracking-wider text-stone-500">
-                <th scope="col" class="py-3 px-4 pl-6">Invitado</th>
+                <th scope="col" class="w-16 py-3 px-2 text-center order-column">Orden</th>
+                <th scope="col" class="py-3 px-4 pl-3">Invitado</th>
                 <th scope="col" class="py-3 px-4">Tipo</th>
                 <th scope="col" class="py-3 px-4">Asistencia (Clic para cambiar)</th>
                 <th scope="col" class="py-3 px-4">Restricción / Menú</th>
@@ -1497,7 +1500,10 @@
         }
         emptyState.classList.add('hidden');
 
-        filtered.forEach(guest => {
+        const isFiltered = (state.searchQuery.trim() !== '') || (state.activeFilter !== 'todos');
+        const totalCount = filtered.length;
+
+        filtered.forEach((guest, idx) => {
           const monto = Number(guest.montoAportado || 0);
           const isExento = wedding.tarjetaActiva && guest.pagaTarjeta === false;
 
@@ -1555,9 +1561,27 @@
 
           // FILA DESKTOP
           const tr = document.createElement('tr');
-          tr.className = 'hover:bg-stone-50/70 transition-smooth border-b border-stone-100';
+          tr.setAttribute('data-guest-item', 'true');
+          tr.setAttribute('data-index', idx);
+          tr.setAttribute('data-id', guest.id);
+          tr.className = 'guest-row-item hover:bg-stone-50/70 transition-smooth border-b border-stone-100 select-none';
           tr.innerHTML = `
-            <td class="py-3 px-4 pl-6">
+            <td class="w-16 py-3 px-2 text-center order-column">
+              <div class="inline-flex items-center justify-center gap-1">
+                <button type="button" class="drag-handle p-1 text-stone-400 hover:text-stone-700 rounded transition-colors ${isFiltered ? 'opacity-30 cursor-not-allowed' : 'cursor-grab active:cursor-grabbing hover:bg-stone-100'}" ${isFiltered ? 'disabled title="Reordenamiento disponible solo sin filtros"' : 'title="Arrastra para reordenar"'} data-id="${guest.id}" data-index="${idx}">
+                  <i data-lucide="grip-vertical" class="w-4 h-4 pointer-events-none"></i>
+                </button>
+                <div class="flex flex-col -space-y-0.5">
+                  <button type="button" class="btn-move-up p-0.5 text-stone-400 hover:text-stone-800 hover:bg-stone-100 rounded transition-colors disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-transparent" data-index="${idx}" ${isFiltered || idx === 0 ? 'disabled' : ''} title="${isFiltered ? 'Reordenamiento disponible solo sin filtros' : (idx === 0 ? 'Primer invitado' : 'Subir')}">
+                    <i data-lucide="chevron-up" class="w-3.5 h-3.5 pointer-events-none"></i>
+                  </button>
+                  <button type="button" class="btn-move-down p-0.5 text-stone-400 hover:text-stone-800 hover:bg-stone-100 rounded transition-colors disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-transparent" data-index="${idx}" ${isFiltered || idx === totalCount - 1 ? 'disabled' : ''} title="${isFiltered ? 'Reordenamiento disponible solo sin filtros' : (idx === totalCount - 1 ? 'Último invitado' : 'Bajar')}">
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 pointer-events-none"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td class="py-3 px-4 pl-3">
               <div class="font-medium text-stone-900">${guest.name}</div>
             </td>
             <td class="py-3 px-4">
@@ -1600,17 +1624,36 @@
 
           // CARD MOBILE
           const card = document.createElement('article');
-          card.className = 'p-4 space-y-3';
+          card.setAttribute('data-guest-item', 'true');
+          card.setAttribute('data-index', idx);
+          card.setAttribute('data-id', guest.id);
+          card.className = 'guest-card-item p-4 space-y-3 transition-all border-b border-stone-100 relative select-none';
           card.innerHTML = `
             <div class="flex items-start justify-between gap-2">
-              <div>
-                <h5 class="text-sm font-bold text-stone-900">${guest.name}</h5>
-                <div class="flex items-center gap-2 mt-1">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${guest.tipo === 'menor' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-stone-100 text-stone-700 border border-stone-200'}">
-                    ${guest.tipo === 'menor' ? 'Menor' : 'Adulto'}
-                  </span>
-                  <span class="text-xs text-stone-500">•</span>
-                  <span class="text-xs text-stone-600">${guest.restriccion !== 'Ninguna' ? guest.restriccion : 'Dieta Estándar'}</span>
+              <div class="flex items-start gap-2.5">
+                <!-- Controles de reordenamiento mobile -->
+                <div class="flex items-center gap-1 shrink-0 pt-0.5 order-control-mobile">
+                  <button type="button" class="drag-handle-mobile p-1 text-stone-400 hover:text-stone-700 rounded transition-colors touch-none ${isFiltered ? 'opacity-30 cursor-not-allowed' : 'cursor-grab active:cursor-grabbing hover:bg-stone-100'}" ${isFiltered ? 'disabled title="Reordenamiento disponible solo sin filtros"' : 'title="Mantén presionado para arrastrar"'} data-id="${guest.id}" data-index="${idx}">
+                    <i data-lucide="grip-vertical" class="w-4 h-4 pointer-events-none"></i>
+                  </button>
+                  <div class="flex flex-col -space-y-0.5">
+                    <button type="button" class="btn-move-up p-0.5 text-stone-400 hover:text-stone-800 hover:bg-stone-100 rounded transition-colors disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-transparent" data-index="${idx}" ${isFiltered || idx === 0 ? 'disabled' : ''} title="${isFiltered ? 'Reordenamiento disponible solo sin filtros' : (idx === 0 ? 'Primer invitado' : 'Subir')}">
+                      <i data-lucide="chevron-up" class="w-3.5 h-3.5 pointer-events-none"></i>
+                    </button>
+                    <button type="button" class="btn-move-down p-0.5 text-stone-400 hover:text-stone-800 hover:bg-stone-100 rounded transition-colors disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-transparent" data-index="${idx}" ${isFiltered || idx === totalCount - 1 ? 'disabled' : ''} title="${isFiltered ? 'Reordenamiento disponible solo sin filtros' : (idx === totalCount - 1 ? 'Último invitado' : 'Bajar')}">
+                      <i data-lucide="chevron-down" class="w-3.5 h-3.5 pointer-events-none"></i>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <h5 class="text-sm font-bold text-stone-900">${guest.name}</h5>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${guest.tipo === 'menor' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-stone-100 text-stone-700 border border-stone-200'}">
+                      ${guest.tipo === 'menor' ? 'Menor' : 'Adulto'}
+                    </span>
+                    <span class="text-xs text-stone-500">•</span>
+                    <span class="text-xs text-stone-600">${guest.restriccion !== 'Ninguna' ? guest.restriccion : 'Dieta Estándar'}</span>
+                  </div>
                 </div>
               </div>
               <button type="button" class="btn-cycle-rsvp inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${currentRsvp.bg} ${currentRsvp.text} border ${currentRsvp.border}" data-id="${guest.id}">
@@ -2252,6 +2295,29 @@
             return;
           }
 
+          const btnUp = e.target.closest('.btn-move-up');
+          if (btnUp) {
+            const isFiltered = (state.searchQuery && state.searchQuery.trim() !== '') || (state.activeFilter && state.activeFilter !== 'todos');
+            if (isFiltered) return;
+            const sourceIndex = parseInt(btnUp.dataset.index, 10);
+            if (!isNaN(sourceIndex) && sourceIndex > 0) {
+              reorderGuest(sourceIndex, sourceIndex - 1);
+            }
+            return;
+          }
+
+          const btnDown = e.target.closest('.btn-move-down');
+          if (btnDown) {
+            const isFiltered = (state.searchQuery && state.searchQuery.trim() !== '') || (state.activeFilter && state.activeFilter !== 'todos');
+            if (isFiltered) return;
+            const sourceIndex = parseInt(btnDown.dataset.index, 10);
+            const wedding = getActiveWedding();
+            if (wedding && !isNaN(sourceIndex) && sourceIndex < wedding.guests.length - 1) {
+              reorderGuest(sourceIndex, sourceIndex + 1);
+            }
+            return;
+          }
+
           const btnDelete = e.target.closest('.btn-delete-guest');
           if (btnDelete) {
             const wedding = getActiveWedding();
@@ -2268,6 +2334,228 @@
 
         document.getElementById('guests-table-body').addEventListener('click', handleAction);
         document.getElementById('guests-cards-container').addEventListener('click', handleAction);
+      }
+
+      // REORDENAMIENTO HÍBRIDO (MICROFLECHAS + DRAG & DROP / LONG-PRESS)
+      function reorderGuest(sourceIndex, targetIndex) {
+        const wedding = getActiveWedding();
+        if (!wedding || !wedding.guests) return;
+        const isFiltered = (state.searchQuery && state.searchQuery.trim() !== '') || (state.activeFilter && state.activeFilter !== 'todos');
+        if (isFiltered) {
+          showToast('Reordenamiento desactivado mientras haya filtros activos', 'warning');
+          return;
+        }
+        if (isNaN(sourceIndex) || isNaN(targetIndex) || sourceIndex === targetIndex) return;
+        if (sourceIndex < 0 || sourceIndex >= wedding.guests.length) return;
+        if (targetIndex < 0 || targetIndex >= wedding.guests.length) return;
+
+        const [movedGuest] = wedding.guests.splice(sourceIndex, 1);
+        wedding.guests.splice(targetIndex, 0, movedGuest);
+
+        saveDatabase();
+        renderGuestsGrid(wedding);
+        renderPrintHeader(wedding);
+        lucide.createIcons();
+        showToast(`Invitado ${movedGuest.name} reubicado en la posición ${targetIndex + 1}`);
+      }
+
+      function setupGuestReordering() {
+        const tbody = document.getElementById('guests-table-body');
+        const cardsContainer = document.getElementById('guests-cards-container');
+        const containers = [tbody, cardsContainer];
+
+        let draggedItem = null;
+        let sourceIndex = null;
+        let currentTargetItem = null;
+
+        const clearDragVisuals = () => {
+          document.querySelectorAll('[data-guest-item]').forEach(el => {
+            el.classList.remove(
+              'opacity-60', 'bg-stone-100', 'border-2', 'border-stone-400', 'shadow-lg', 
+              'cursor-grabbing', 'scale-[0.99]', 'transition-all',
+              'ring-2', 'ring-stone-400', 'ring-inset', 'bg-stone-100/60'
+            );
+            el.removeAttribute('draggable');
+          });
+          draggedItem = null;
+          sourceIndex = null;
+          currentTargetItem = null;
+        };
+
+        // Desktop: Mousedown sobre manija de agarre para habilitar dragstart seguro
+        document.addEventListener('mousedown', (e) => {
+          const handle = e.target.closest('.drag-handle');
+          if (!handle) return;
+          const isFiltered = (state.searchQuery && state.searchQuery.trim() !== '') || (state.activeFilter && state.activeFilter !== 'todos');
+          if (isFiltered) return;
+          const item = handle.closest('[data-guest-item]');
+          if (item) {
+            item.setAttribute('draggable', 'true');
+          }
+        });
+
+        // Eventos HTML5 Drag & Drop en contenedores de filas y tarjetas
+        containers.forEach(container => {
+          container.addEventListener('dragstart', (e) => {
+            const item = e.target.closest('[data-guest-item]');
+            const isFiltered = (state.searchQuery && state.searchQuery.trim() !== '') || (state.activeFilter && state.activeFilter !== 'todos');
+            if (!item || isFiltered || item.getAttribute('draggable') !== 'true') {
+              e.preventDefault();
+              return;
+            }
+
+            draggedItem = item;
+            sourceIndex = parseInt(item.dataset.index, 10);
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', String(sourceIndex));
+
+            requestAnimationFrame(() => {
+              item.classList.add('opacity-60', 'bg-stone-100', 'border-2', 'border-stone-400', 'shadow-lg', 'cursor-grabbing', 'scale-[0.99]', 'transition-all');
+            });
+          });
+
+          container.addEventListener('dragover', (e) => {
+            if (!draggedItem) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+
+            const item = e.target.closest('[data-guest-item]');
+            if (item && item !== draggedItem) {
+              if (currentTargetItem && currentTargetItem !== item) {
+                currentTargetItem.classList.remove('ring-2', 'ring-stone-400', 'ring-inset', 'bg-stone-100/60');
+              }
+              currentTargetItem = item;
+              currentTargetItem.classList.add('ring-2', 'ring-stone-400', 'ring-inset', 'bg-stone-100/60');
+            }
+          });
+
+          container.addEventListener('dragleave', (e) => {
+            const item = e.target.closest('[data-guest-item]');
+            if (item && item === currentTargetItem && !item.contains(e.relatedTarget)) {
+              item.classList.remove('ring-2', 'ring-stone-400', 'ring-inset', 'bg-stone-100/60');
+              currentTargetItem = null;
+            }
+          });
+
+          container.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const targetItem = e.target.closest('[data-guest-item]');
+            const srcIdx = sourceIndex;
+            clearDragVisuals();
+
+            if (targetItem && srcIdx !== null && !isNaN(srcIdx)) {
+              const targetIdx = parseInt(targetItem.dataset.index, 10);
+              if (!isNaN(targetIdx) && srcIdx !== targetIdx) {
+                reorderGuest(srcIdx, targetIdx);
+              }
+            }
+          });
+
+          container.addEventListener('dragend', () => {
+            clearDragVisuals();
+          });
+        });
+
+        // Mobile / Tablet: Long-Press Touch nativo (350ms) con vibración sutil
+        let touchTimer = null;
+        let isTouchDragging = false;
+        let touchItem = null;
+        let touchSrcIndex = null;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchDropTarget = null;
+
+        const clearTouchState = () => {
+          if (touchTimer) {
+            clearTimeout(touchTimer);
+            touchTimer = null;
+          }
+          if (touchItem) {
+            touchItem.classList.remove('opacity-60', 'bg-stone-100', 'border-2', 'border-stone-400', 'shadow-lg', 'cursor-grabbing', 'scale-[0.99]', 'transition-all');
+            touchItem = null;
+          }
+          if (touchDropTarget) {
+            touchDropTarget.classList.remove('ring-2', 'ring-stone-400', 'ring-inset', 'bg-stone-100/60');
+            touchDropTarget = null;
+          }
+          isTouchDragging = false;
+          touchSrcIndex = null;
+        };
+
+        document.addEventListener('touchstart', (e) => {
+          const handle = e.target.closest('.drag-handle, .drag-handle-mobile');
+          if (!handle) return;
+          const isFiltered = (state.searchQuery && state.searchQuery.trim() !== '') || (state.activeFilter && state.activeFilter !== 'todos');
+          if (isFiltered) return;
+
+          const item = handle.closest('[data-guest-item]');
+          if (!item) return;
+
+          touchItem = item;
+          touchSrcIndex = parseInt(item.dataset.index, 10);
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+
+          touchTimer = setTimeout(() => {
+            isTouchDragging = true;
+            if (navigator.vibrate) {
+              try { navigator.vibrate(50); } catch (_) {}
+            }
+            touchItem.classList.add('opacity-60', 'bg-stone-100', 'border-2', 'border-stone-400', 'shadow-lg', 'cursor-grabbing', 'scale-[0.99]', 'transition-all');
+          }, 350);
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+          if (!touchItem) return;
+
+          if (!isTouchDragging) {
+            const dx = Math.abs(e.touches[0].clientX - touchStartX);
+            const dy = Math.abs(e.touches[0].clientY - touchStartY);
+            if (dx > 10 || dy > 10) {
+              clearTimeout(touchTimer);
+              touchTimer = null;
+            }
+            return;
+          }
+
+          if (e.cancelable) {
+            e.preventDefault();
+          }
+
+          const touch = e.touches[0];
+          const el = document.elementFromPoint(touch.clientX, touch.clientY);
+          const overItem = el ? el.closest('[data-guest-item]') : null;
+
+          if (overItem !== touchDropTarget) {
+            if (touchDropTarget) {
+              touchDropTarget.classList.remove('ring-2', 'ring-stone-400', 'ring-inset', 'bg-stone-100/60');
+            }
+            touchDropTarget = overItem;
+            if (touchDropTarget && touchDropTarget !== touchItem) {
+              touchDropTarget.classList.add('ring-2', 'ring-stone-400', 'ring-inset', 'bg-stone-100/60');
+            }
+          }
+        }, { passive: false });
+
+        document.addEventListener('touchend', () => {
+          if (touchTimer) {
+            clearTimeout(touchTimer);
+          }
+          if (isTouchDragging && touchDropTarget && touchDropTarget !== touchItem && touchSrcIndex !== null) {
+            const targetIdx = parseInt(touchDropTarget.dataset.index, 10);
+            const srcIdx = touchSrcIndex;
+            clearTouchState();
+            if (!isNaN(targetIdx) && srcIdx !== targetIdx) {
+              reorderGuest(srcIdx, targetIdx);
+            }
+          } else {
+            clearTouchState();
+          }
+        });
+
+        document.addEventListener('touchcancel', () => {
+          clearTouchState();
+        });
       }
 
       // 8. EXPORTACIÓN A CSV Y REPORTE PDF
@@ -2909,6 +3197,7 @@
         setupAddForm();
         setupSearchAndFilters();
         setupGridActions();
+        setupGuestReordering();
         setupExportAndPrint();
         setupBackupAndRestore();
         setupImportModule();
